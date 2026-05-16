@@ -3,474 +3,975 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DataBase — LuminaSaber</title>
+  <title>LuminaSaber — README</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Outfit:wght@300;400;600;800;900&display=swap" rel="stylesheet" />
   <style>
     /* ── THEME TOKENS ── */
     :root[data-theme="dark"] {
-      --bg:           #0b0e14;
-      --bg2:          #12161f;
-      --bg3:          #1a1f2e;
-      --border:       #252c3e;
-      --accent:       #5b8dee;
-      --accent2:      #a78bfa;
-      --text:         #e2e8f8;
-      --text-muted:   #6b7899;
-      --tag-bg:       #1e2540;
-      --tag-text:     #8ab4f8;
-      --code-bg:      #0d1117;
-      --code-text:    #7dd3a8;
-      --warn-bg:      #1f1a0e;
-      --warn-border:  #7c5f1a;
-      --warn-text:    #f5c842;
-      --table-head:   #161b28;
-      --table-row:    #0f131c;
-      --table-alt:    #131825;
-      --shadow:       0 4px 32px rgba(0,0,0,.45);
+      --bg:           #090c12;
+      --bg2:          #0f1320;
+      --bg3:          #151b2e;
+      --bg4:          #1c2540;
+      --border:       #1e2a45;
+      --border2:      #2a3a60;
+      --accent:       #38bdf8;
+      --accent2:      #818cf8;
+      --accent3:      #34d399;
+      --glow:         rgba(56,189,248,0.18);
+      --glow2:        rgba(129,140,248,0.14);
+      --text:         #e8f0ff;
+      --text-muted:   #5a6a90;
+      --text-dim:     #8496c0;
+      --tag-bg:       #0f1a30;
+      --tag-text:     #60a5fa;
+      --code-bg:      #070a10;
+      --code-text:    #34d399;
+      --code-border:  #1a2540;
+      --warn-bg:      #12100a;
+      --warn-border:  #b45309;
+      --warn-text:    #fcd34d;
+      --table-head:   #0b1022;
+      --table-row:    #0d1220;
+      --table-alt:    #0f1528;
+      --shadow:       0 8px 48px rgba(0,0,0,.7), 0 2px 8px rgba(56,189,248,.06);
+      --card-hover:   0 0 0 1px var(--accent), 0 8px 32px var(--glow);
+      --noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");
     }
     :root[data-theme="light"] {
-      --bg:           #f4f6fb;
+      --bg:           #f0f4ff;
       --bg2:          #ffffff;
-      --bg3:          #eef1f9;
-      --border:       #d1d9ee;
-      --accent:       #2563eb;
-      --accent2:      #7c3aed;
-      --text:         #1a2035;
-      --text-muted:   #6b7899;
+      --bg3:          #e8eeff;
+      --bg4:          #dce5ff;
+      --border:       #c8d5f0;
+      --border2:      #a0b4e0;
+      --accent:       #0284c7;
+      --accent2:      #4f46e5;
+      --accent3:      #059669;
+      --glow:         rgba(2,132,199,0.12);
+      --glow2:        rgba(79,70,229,0.10);
+      --text:         #0f1a35;
+      --text-muted:   #6b7db0;
+      --text-dim:     #4a5980;
       --tag-bg:       #dbeafe;
       --tag-text:     #1d4ed8;
-      --code-bg:      #f0f4ff;
-      --code-text:    #166534;
+      --code-bg:      #f0f5ff;
+      --code-text:    #047857;
+      --code-border:  #c8d5f0;
       --warn-bg:      #fffbeb;
       --warn-border:  #d97706;
-      --warn-text:    #92400e;
-      --table-head:   #e8edf8;
+      --warn-text:    #78350f;
+      --table-head:   #e4ebff;
       --table-row:    #ffffff;
-      --table-alt:    #f4f6fb;
-      --shadow:       0 4px 24px rgba(30,40,80,.10);
+      --table-alt:    #f2f6ff;
+      --shadow:       0 8px 32px rgba(15,26,53,0.10), 0 2px 8px rgba(2,132,199,.05);
+      --card-hover:   0 0 0 1px var(--accent), 0 8px 24px var(--glow);
+      --noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='.02'/%3E%3C/svg%3E");
     }
 
-    /* ── RESET & BASE ── */
+    /* ── RESET ── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
-      font-family: 'Syne', sans-serif;
+      font-family: 'Outfit', sans-serif;
       background: var(--bg);
       color: var(--text);
       line-height: 1.7;
-      transition: background .3s, color .3s;
       min-height: 100vh;
+      transition: background .35s, color .35s;
+      overflow-x: hidden;
+    }
+
+    /* ── BACKGROUND GRID ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 44px 44px;
+      opacity: .35;
+      pointer-events: none;
+    }
+    body::after {
+      content: '';
+      position: fixed; inset: 0; z-index: 0;
+      background: var(--noise);
+      pointer-events: none;
     }
 
     /* ── LAYOUT ── */
-    .container { max-width: 860px; margin: 0 auto; padding: 0 1.5rem 5rem; }
+    .wrapper { position: relative; z-index: 1; }
+    .container { max-width: 900px; margin: 0 auto; padding: 0 1.5rem 6rem; }
+
+    /* ── THEME TOGGLE ── */
+    .theme-toggle {
+      position: fixed; top: 1.2rem; right: 1.5rem; z-index: 200;
+      background: var(--bg2);
+      border: 1px solid var(--border2);
+      border-radius: 999px;
+      padding: .45rem 1rem;
+      cursor: pointer;
+      font-size: .78rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-dim);
+      display: flex; align-items: center; gap: .45rem;
+      box-shadow: var(--shadow);
+      transition: all .2s;
+      user-select: none;
+      letter-spacing: .02em;
+    }
+    .theme-toggle:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      box-shadow: 0 0 0 1px var(--accent), var(--shadow);
+    }
 
     /* ── HEADER ── */
     header {
       position: relative;
-      padding: 3.5rem 0 2.5rem;
+      padding: 5rem 0 3rem;
       text-align: center;
       overflow: hidden;
     }
-    header::before {
-      content: '';
+    .header-glow {
       position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse 70% 55% at 50% 0%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 70%);
+      top: -40px; left: 50%; transform: translateX(-50%);
+      width: 700px; height: 350px;
+      background: radial-gradient(ellipse, var(--glow) 0%, var(--glow2) 40%, transparent 70%);
       pointer-events: none;
+      border-radius: 50%;
     }
-    .db-icon {
-      font-size: 3rem;
-      line-height: 1;
-      margin-bottom: .5rem;
-      display: block;
+    .logo-wrap {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .7rem;
+      margin-bottom: 1.6rem;
+      position: relative;
     }
-    h1 {
-      font-size: clamp(2rem, 5vw, 3rem);
-      font-weight: 800;
-      letter-spacing: -.02em;
-      background: linear-gradient(120deg, var(--accent), var(--accent2));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+    .logo-icon {
+      font-size: 2.6rem;
+      filter: drop-shadow(0 0 12px var(--accent));
+      animation: pulse-glow 3s ease-in-out infinite;
+    }
+    @keyframes pulse-glow {
+      0%, 100% { filter: drop-shadow(0 0 10px var(--accent)); }
+      50%       { filter: drop-shadow(0 0 22px var(--accent)) drop-shadow(0 0 40px var(--glow2)); }
+    }
+    .logo-title {
+      font-size: clamp(2.6rem, 6vw, 4rem);
+      font-weight: 900;
+      letter-spacing: -.03em;
+      background: linear-gradient(110deg, var(--accent) 0%, var(--accent2) 55%, var(--accent3) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       background-clip: text;
+      line-height: 1;
     }
-    .subtitle {
-      margin-top: .6rem;
-      color: var(--text-muted);
-      font-size: .95rem;
+    .header-tagline {
+      font-size: 1.05rem;
+      color: var(--text-dim);
+      max-width: 520px;
+      margin: 0 auto 1.6rem;
+      font-weight: 300;
     }
-    .subtitle a { color: var(--accent); text-decoration: none; }
-    .subtitle a:hover { text-decoration: underline; }
-    .badges { display: flex; gap: .5rem; justify-content: center; margin-top: 1.2rem; flex-wrap: wrap; }
+    .header-tagline strong { color: var(--text); font-weight: 600; }
+    .badges {
+      display: flex; gap: .5rem; justify-content: center; flex-wrap: wrap;
+      margin-top: 1rem;
+    }
     .badge {
       display: inline-flex; align-items: center; gap: .35rem;
-      background: var(--tag-bg); color: var(--tag-text);
-      border: 1px solid var(--border);
-      border-radius: 999px; padding: .25rem .85rem;
-      font-size: .78rem; font-family: 'Space Mono', monospace;
-      font-weight: 700; letter-spacing: .03em;
+      background: var(--tag-bg);
+      color: var(--tag-text);
+      border: 1px solid var(--border2);
+      border-radius: 6px;
+      padding: .3rem .9rem;
+      font-size: .75rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      letter-spacing: .04em;
+      transition: border-color .2s, box-shadow .2s;
     }
-
-    /* ── THEME TOGGLE ── */
-    .theme-toggle {
-      position: fixed; top: 1.2rem; right: 1.4rem; z-index: 100;
-      background: var(--bg2); border: 1px solid var(--border);
-      border-radius: 999px; padding: .4rem .9rem;
-      cursor: pointer; font-size: .8rem; font-family: 'Space Mono', monospace;
-      color: var(--text); display: flex; align-items: center; gap: .4rem;
-      box-shadow: var(--shadow); transition: all .2s;
-      user-select: none;
+    .badge:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 8px var(--glow);
     }
-    .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
-    .toggle-icon { font-size: 1rem; }
 
     /* ── DIVIDER ── */
-    hr { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+    .divider {
+      display: flex; align-items: center; gap: 1rem;
+      margin: 2.5rem 0;
+    }
+    .divider::before, .divider::after {
+      content: ''; flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border2), transparent);
+    }
+    .divider-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 8px var(--accent);
+    }
 
     /* ── SECTIONS ── */
-    section { margin-bottom: 2.8rem; }
-    h2 {
-      font-size: 1.25rem; font-weight: 800;
-      display: flex; align-items: center; gap: .5rem;
-      margin-bottom: 1rem; padding-bottom: .5rem;
+    section { margin-bottom: 3.2rem; }
+    .section-header {
+      display: flex; align-items: center; gap: .7rem;
+      margin-bottom: 1.2rem;
+      padding-bottom: .7rem;
       border-bottom: 1px solid var(--border);
     }
-    h2 .icon { font-size: 1.1rem; }
-    p { color: var(--text-muted); font-size: .95rem; }
-    p + p { margin-top: .6rem; }
-
-    /* ── WARNING BOX ── */
-    .warn {
-      background: var(--warn-bg); border: 1px solid var(--warn-border);
-      border-left: 4px solid var(--warn-border);
-      border-radius: 8px; padding: 1rem 1.2rem;
-      color: var(--warn-text); font-size: .9rem;
+    .section-header .icon {
+      font-size: 1.2rem;
+      filter: drop-shadow(0 0 6px var(--accent));
     }
-    .warn strong { display: block; margin-bottom: .4rem; font-size: .95rem; }
-    .warn ul { margin-top: .4rem; padding-left: 1.2rem; }
-    .warn li { margin-bottom: .2rem; }
-
-    /* ── CODE ── */
-    code {
-      font-family: 'Space Mono', monospace;
-      background: var(--code-bg); color: var(--code-text);
-      border-radius: 4px; padding: .15em .45em;
-      font-size: .82em;
+    .section-header h2 {
+      font-size: 1.1rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--text);
     }
-    pre {
-      background: var(--code-bg); border: 1px solid var(--border);
-      border-radius: 10px; padding: 1.1rem 1.3rem;
-      overflow-x: auto; margin: .8rem 0;
-    }
-    pre code {
-      background: none; padding: 0;
-      font-size: .83rem; color: var(--code-text);
+    .section-header .line-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .72rem;
+      color: var(--text-muted);
+      margin-left: auto;
     }
 
-    /* ── TABLES ── */
-    .table-wrap { overflow-x: auto; border-radius: 10px; border: 1px solid var(--border); }
-    table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+    p { color: var(--text-dim); font-size: .95rem; line-height: 1.8; }
+    p + p { margin-top: .7rem; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── CARDS GRID ── */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1rem;
+    }
+    .card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.3rem 1.5rem;
+      box-shadow: var(--shadow);
+      transition: box-shadow .25s, transform .25s;
+      position: relative;
+      overflow: hidden;
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      opacity: 0;
+      transition: opacity .25s;
+    }
+    .card:hover { box-shadow: var(--card-hover); transform: translateY(-3px); }
+    .card:hover::before { opacity: 1; }
+    .card-icon { font-size: 1.6rem; margin-bottom: .6rem; display: block; }
+    .card-title { font-weight: 700; font-size: 1rem; margin-bottom: .25rem; color: var(--text); }
+    .card-desc { font-size: .85rem; color: var(--text-dim); line-height: 1.6; }
+    .card-badge {
+      display: inline-block;
+      margin-top: .7rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .68rem;
+      font-weight: 700;
+      padding: .2rem .6rem;
+      border-radius: 4px;
+      letter-spacing: .04em;
+    }
+    .badge-public { background: rgba(52,211,153,.12); color: var(--accent3); border: 1px solid rgba(52,211,153,.3); }
+    .badge-auth   { background: rgba(56,189,248,.12); color: var(--accent);  border: 1px solid rgba(56,189,248,.3); }
+    .badge-admin  { background: rgba(129,140,248,.12); color: var(--accent2); border: 1px solid rgba(129,140,248,.3); }
+
+    /* ── TABLE ── */
+    .table-wrap {
+      overflow-x: auto;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+    table { width: 100%; border-collapse: collapse; font-size: .88rem; }
     thead tr { background: var(--table-head); }
     th {
-      padding: .7rem 1rem; text-align: left;
-      font-weight: 700; font-size: .8rem;
-      letter-spacing: .06em; text-transform: uppercase;
-      color: var(--text-muted); border-bottom: 1px solid var(--border);
+      padding: .8rem 1.1rem;
+      text-align: left;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      font-size: .72rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
     }
-    td { padding: .65rem 1rem; border-bottom: 1px solid var(--border); }
+    td { padding: .72rem 1.1rem; border-bottom: 1px solid var(--border); color: var(--text-dim); }
     tr:last-child td { border-bottom: none; }
     tbody tr:nth-child(odd)  { background: var(--table-row); }
     tbody tr:nth-child(even) { background: var(--table-alt); }
-    tbody tr:hover { background: color-mix(in srgb, var(--accent) 8%, transparent); }
-
-    /* ── TAGS GRID ── */
-    .tags { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .5rem; }
-    .tag {
-      background: var(--tag-bg); color: var(--tag-text);
-      border: 1px solid var(--border); border-radius: 6px;
-      padding: .25rem .7rem; font-family: 'Space Mono', monospace;
-      font-size: .78rem; font-weight: 700;
+    tbody tr { transition: background .15s; }
+    tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, transparent); }
+    td code, th code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .78em;
+      background: var(--code-bg);
+      color: var(--code-text);
+      padding: .15em .45em;
+      border-radius: 4px;
+      border: 1px solid var(--code-border);
     }
+    .method {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .75rem;
+      font-weight: 700;
+      padding: .15em .5em;
+      border-radius: 4px;
+    }
+    .method-get    { background: rgba(52,211,153,.12); color: #34d399; border: 1px solid rgba(52,211,153,.3); }
+    .method-post   { background: rgba(56,189,248,.12); color: #38bdf8; border: 1px solid rgba(56,189,248,.3); }
+    .method-put    { background: rgba(251,191,36,.12);  color: #fbbf24; border: 1px solid rgba(251,191,36,.3); }
+    .method-delete { background: rgba(248,113,113,.12); color: #f87171; border: 1px solid rgba(248,113,113,.3); }
+
+    /* ── TAGS ── */
+    .tags { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .6rem; }
+    .tag {
+      background: var(--tag-bg);
+      color: var(--tag-text);
+      border: 1px solid var(--border2);
+      border-radius: 6px;
+      padding: .28rem .75rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .74rem;
+      font-weight: 700;
+      letter-spacing: .02em;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .tag:hover { border-color: var(--accent); box-shadow: 0 0 8px var(--glow); }
+
+    /* ── TECH CHIPS ── */
+    .tech-grid { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: .6rem; }
+    .tech-chip {
+      display: flex; align-items: center; gap: .4rem;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: .4rem .9rem;
+      font-size: .82rem;
+      color: var(--text-dim);
+      font-weight: 600;
+      transition: border-color .2s, transform .2s;
+    }
+    .tech-chip:hover { border-color: var(--accent2); transform: translateY(-1px); }
+    .tech-chip .dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 6px var(--accent);
+    }
+    .tech-chip .dot.green { background: var(--accent3); box-shadow: 0 0 6px var(--accent3); }
+    .tech-chip .dot.purple { background: var(--accent2); box-shadow: 0 0 6px var(--accent2); }
+
+    /* ── CODE BLOCK ── */
+    pre {
+      background: var(--code-bg);
+      border: 1px solid var(--code-border);
+      border-radius: 12px;
+      padding: 1.3rem 1.5rem;
+      overflow-x: auto;
+      margin: .8rem 0;
+      position: relative;
+    }
+    pre::before {
+      content: attr(data-label);
+      position: absolute;
+      top: .7rem; right: 1rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .65rem;
+      color: var(--text-muted);
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+    pre code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .82rem;
+      color: var(--code-text);
+      background: none;
+      padding: 0;
+      border: none;
+      line-height: 1.8;
+    }
+    .kw  { color: var(--accent2); }
+    .str { color: #f0a070; }
+    .cmt { color: var(--text-muted); font-style: italic; }
+    .fn  { color: var(--accent); }
+    .num { color: var(--accent3); }
+
+    /* ── WARN BOX ── */
+    .warn {
+      background: var(--warn-bg);
+      border: 1px solid var(--warn-border);
+      border-left: 4px solid var(--warn-border);
+      border-radius: 10px;
+      padding: 1rem 1.3rem;
+      color: var(--warn-text);
+      font-size: .88rem;
+    }
+    .warn strong { display: block; margin-bottom: .5rem; font-size: .92rem; }
+
+    /* ── STEPS ── */
+    .steps { display: flex; flex-direction: column; gap: .85rem; }
+    .step {
+      display: flex; gap: 1rem; align-items: flex-start;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1rem 1.2rem;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .step:hover { border-color: var(--border2); box-shadow: var(--shadow); }
+    .step-num {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff;
+      border-radius: 50%;
+      width: 2rem; height: 2rem;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .75rem;
+      font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+      flex-shrink: 0;
+      margin-top: .05rem;
+      box-shadow: 0 0 12px var(--glow);
+    }
+    .step-content { font-size: .9rem; color: var(--text-dim); flex: 1; }
+    .step-content strong { display: block; color: var(--text); margin-bottom: .25rem; font-size: .95rem; }
 
     /* ── TEAM CARDS ── */
     .team { display: flex; gap: 1rem; flex-wrap: wrap; }
-    .card {
-      flex: 1; min-width: 220px;
-      background: var(--bg2); border: 1px solid var(--border);
-      border-radius: 12px; padding: 1.1rem 1.3rem;
+    .team-card {
+      flex: 1; min-width: 240px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.3rem 1.5rem;
       box-shadow: var(--shadow);
-      transition: border-color .2s, transform .2s;
+      transition: box-shadow .25s, transform .25s;
+      display: flex; flex-direction: column; gap: .3rem;
     }
-    .card:hover { border-color: var(--accent); transform: translateY(-2px); }
-    .card-name { font-weight: 700; font-size: .97rem; margin-bottom: .25rem; }
-    .card-mat { font-family: 'Space Mono', monospace; color: var(--text-muted); font-size: .8rem; }
-    .card-school { font-size: .8rem; color: var(--text-muted); margin-top: .4rem; }
-
-    /* ── STEPS ── */
-    .steps { display: flex; flex-direction: column; gap: .8rem; }
-    .step {
-      display: flex; gap: 1rem; align-items: flex-start;
-      background: var(--bg2); border: 1px solid var(--border);
-      border-radius: 10px; padding: .9rem 1.1rem;
-    }
-    .step-num {
+    .team-card:hover { box-shadow: var(--card-hover); transform: translateY(-2px); }
+    .team-avatar {
+      width: 40px; height: 40px;
+      border-radius: 10px;
       background: linear-gradient(135deg, var(--accent), var(--accent2));
-      color: #fff; border-radius: 50%; width: 1.8rem; height: 1.8rem;
       display: flex; align-items: center; justify-content: center;
-      font-size: .8rem; font-weight: 700; flex-shrink: 0; margin-top: .1rem;
+      font-size: 1.2rem;
+      margin-bottom: .6rem;
     }
-    .step-content { font-size: .92rem; color: var(--text-muted); }
-    .step-content strong { display: block; color: var(--text); margin-bottom: .1rem; }
+    .team-name { font-weight: 700; font-size: .97rem; color: var(--text); }
+    .team-mat  { font-family: 'JetBrains Mono', monospace; color: var(--text-muted); font-size: .75rem; margin-top: .1rem; }
+    .team-school { font-size: .78rem; color: var(--text-muted); margin-top: .4rem; }
+
+    /* ── ROADMAP ── */
+    .roadmap { display: flex; flex-direction: column; gap: .6rem; }
+    .roadmap-item {
+      display: flex; align-items: center; gap: .8rem;
+      padding: .65rem 1rem;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--bg2);
+      font-size: .88rem;
+      color: var(--text-dim);
+      transition: border-color .15s;
+    }
+    .roadmap-item:hover { border-color: var(--border2); }
+    .roadmap-item .ri { font-size: .9rem; }
+    .roadmap-item .status {
+      margin-left: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .65rem;
+      font-weight: 700;
+      padding: .15em .6em;
+      border-radius: 4px;
+      letter-spacing: .04em;
+    }
+    .s-future { background: rgba(129,140,248,.1); color: var(--accent2); border: 1px solid rgba(129,140,248,.3); }
+
+    /* ── BTN ── */
+    .btn {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff;
+      border-radius: 10px;
+      padding: .65rem 1.4rem;
+      font-weight: 700;
+      font-size: .88rem;
+      text-decoration: none;
+      transition: opacity .2s, transform .2s, box-shadow .2s;
+      margin-top: .8rem;
+      box-shadow: 0 4px 20px var(--glow);
+      letter-spacing: .02em;
+    }
+    .btn:hover { opacity: .88; transform: translateY(-2px); box-shadow: 0 8px 30px var(--glow); text-decoration: none; }
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--border2);
+      color: var(--text-dim);
+      box-shadow: none;
+    }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); box-shadow: 0 0 12px var(--glow); }
 
     /* ── FOOTER ── */
     footer {
-      text-align: center; padding: 2rem 0 1rem;
-      color: var(--text-muted); font-size: .82rem; border-top: 1px solid var(--border);
+      text-align: center;
+      padding: 2.5rem 0 1.5rem;
+      border-top: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: .8rem;
     }
-    footer a { color: var(--accent); text-decoration: none; }
-    footer a:hover { text-decoration: underline; }
+    footer a { color: var(--accent); }
 
-    /* ── LINK BUTTON ── */
-    .btn {
-      display: inline-flex; align-items: center; gap: .4rem;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      color: #fff; border-radius: 8px; padding: .55rem 1.1rem;
-      font-weight: 700; font-size: .88rem; text-decoration: none;
-      transition: opacity .2s, transform .2s; margin-top: .6rem;
+    /* ── STRUCT TREE ── */
+    .struct-tree {
+      background: var(--code-bg);
+      border: 1px solid var(--code-border);
+      border-radius: 12px;
+      padding: 1.2rem 1.5rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .8rem;
+      color: var(--code-text);
+      line-height: 2;
+      overflow-x: auto;
     }
-    .btn:hover { opacity: .88; transform: translateY(-1px); }
+    .struct-tree .dir { color: var(--accent); font-weight: 700; }
+    .struct-tree .comment { color: var(--text-muted); font-style: italic; }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .container > * {
+      animation: fadeUp .5s ease both;
+    }
+    section:nth-child(1) { animation-delay: .05s; }
+    section:nth-child(2) { animation-delay: .1s; }
+    section:nth-child(3) { animation-delay: .15s; }
+    section:nth-child(4) { animation-delay: .2s; }
+    section:nth-child(5) { animation-delay: .25s; }
 
     @media (max-width: 600px) {
       .team { flex-direction: column; }
-      .theme-toggle span.label { display: none; }
+      .theme-toggle .label { display: none; }
+      .logo-title { font-size: 2.2rem; }
     }
   </style>
 </head>
 <body>
+<div class="wrapper">
 
-<!-- THEME TOGGLE -->
-<button class="theme-toggle" onclick="toggleTheme()" aria-label="Alternar tema">
-  <span class="toggle-icon" id="toggle-icon">☀️</span>
-  <span class="label" id="toggle-label">Tema claro</span>
-</button>
+  <!-- THEME TOGGLE -->
+  <button class="theme-toggle" onclick="toggleTheme()" aria-label="Alternar tema">
+    <span id="toggle-icon">☀️</span>
+    <span class="label" id="toggle-label">Tema claro</span>
+  </button>
 
-<div class="container">
+  <div class="container">
 
-  <!-- HEADER -->
-  <header>
-    <span class="db-icon">🗄️</span>
-    <h1>DataBase — LuminaSaber</h1>
-    <p class="subtitle">
-      Scripts SQLite do banco de dados da plataforma
-      <a href="https://github.com/walescaamaro/LuminaSaber" target="_blank">LuminaSaber ↗</a>
-    </p>
-    <div class="badges">
-      <span class="badge">🧩 12 tabelas</span>
-      <span class="badge">🗃️ SQLite</span>
-      <span class="badge">🏫 IFPB</span>
-    </div>
-  </header>
-
-  <hr />
-
-  <!-- SOBRE -->
-  <section>
-    <h2><span class="icon">📖</span> Sobre este repositório</h2>
-    <p>
-      Este repositório contém todos os scripts SQL do banco de dados relacional do projeto
-      <strong>LuminaSaber</strong>, desenvolvido em <strong>SQLite</strong>.
-      Os arquivos estão organizados por operação para facilitar a leitura e execução.
-    </p>
-    <p style="margin-top:.8rem">
-      O banco foi originalmente modelado em <strong>PostgreSQL</strong> e migrado para
-      <strong>SQLite</strong>. Veja abaixo as principais adaptações realizadas:
-    </p>
-    <div class="warn" style="margin-top:1rem">
-      <strong>⚠️ Adaptações PostgreSQL → SQLite</strong>
-      <ul>
-        <li><code>ENUM</code> substituído por <code>TEXT</code> com <code>CHECK</code></li>
-        <li><code>ALTER TABLE ADD CONSTRAINT</code> movido para dentro do <code>CREATE TABLE</code></li>
-        <li>Tipo <code>TIME</code> substituído por <code>TEXT</code> (formato <code>'HH:MM:SS'</code>)</li>
-        <li><code>AUTOINCREMENT</code> adicionado em todas as chaves primárias simples</li>
-        <li><code>PRAGMA foreign_keys = ON;</code> necessário para ativar chaves estrangeiras</li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- EQUIPE -->
-  <section>
-    <h2><span class="icon">👩‍💻</span> Equipe</h2>
-    <div class="team">
-      <div class="card">
-        <div class="card-name">Walesca Amaro Rodrigues</div>
-        <div class="card-mat">Matrícula: 20241780019</div>
-        <div class="card-school">Instituto Federal da Paraíba — IFPB</div>
+    <!-- HEADER -->
+    <header>
+      <div class="header-glow"></div>
+      <div class="logo-wrap">
+        <span class="logo-icon">🌟</span>
+        <span class="logo-title">LuminaSaber</span>
       </div>
-      <div class="card">
-        <div class="card-name">Rayssa Priscila Silva Nascimento</div>
-        <div class="card-mat">Matrícula: 20241780013</div>
-        <div class="card-school">Instituto Federal da Paraíba — IFPB</div>
+      <p class="header-tagline">
+        <strong>Plataforma web gamificada e gratuita</strong> de apoio ao aprendizado da educação básica — do jardim de infância ao 9º ano
+      </p>
+      <div class="badges">
+        <span class="badge">⚡ Node.js + Express</span>
+        <span class="badge">🗄️ SQLite</span>
+        <span class="badge">🎓 IFPB</span>
+        <span class="badge">🆓 Gratuito</span>
+        <span class="badge">📡 REST API</span>
       </div>
-    </div>
-  </section>
+    </header>
 
-  <!-- ARQUIVOS -->
-  <section>
-    <h2><span class="icon">📁</span> Arquivos</h2>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr><th>Arquivo</th><th>O que faz</th></tr>
-        </thead>
-        <tbody>
-          <tr><td><code>tabelas.sql</code></td><td>Cria todas as tabelas, constraints e relacionamentos em SQLite</td></tr>
-          <tr><td><code>insert.sql</code></td><td>Insere os dados iniciais em todas as tabelas</td></tr>
-          <tr><td><code>consultas.sql</code></td><td>Consultas com SELECT, WHERE, JOIN e ordenação</td></tr>
-          <tr><td><code>atualização de dados (update).sql</code></td><td>Atualização de registros com UPDATE</td></tr>
-          <tr><td><code>delete.sql</code></td><td>Exclusão de registros com DELETE</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
+    <div class="divider"><div class="divider-dot"></div></div>
 
-  <!-- TABELAS -->
-  <section>
-    <h2><span class="icon">🧩</span> Tabelas do Banco</h2>
-    <p>O modelo é composto por <strong>12 tabelas</strong>:</p>
-    <div class="tags">
-      <span class="tag">USUARIO</span>
-      <span class="tag">DISCIPLINA</span>
-      <span class="tag">CONTEUDO</span>
-      <span class="tag">QUESTAO</span>
-      <span class="tag">HISTORICO</span>
-      <span class="tag">PASTA</span>
-      <span class="tag">ANOTACAO</span>
-      <span class="tag">SUPORTE</span>
-      <span class="tag">RELATORIO</span>
-      <span class="tag">ESTUDA</span>
-      <span class="tag">POSSUI</span>
-      <span class="tag">CONTEM</span>
-    </div>
+    <!-- SOBRE -->
+    <section>
+      <div class="section-header">
+        <span class="icon">📖</span>
+        <h2>Sobre o Projeto</h2>
+        <span class="line-num">§ 01</span>
+      </div>
+      <p>
+        O <strong>LuminaSaber</strong> é uma plataforma web voltada para estudantes da educação básica, oferecendo exercícios de múltipla escolha adaptados ao ritmo de cada aluno, de forma <strong>gratuita, inclusiva e organizada</strong>.
+      </p>
+      <p style="margin-top:.9rem">
+        A proposta é incentivar a autonomia nos estudos, com exercícios por disciplina, relatórios de desempenho, anotações digitais e organização de conteúdo por pastas — tudo em uma interface acessível e motivadora.
+      </p>
+      <div class="tags" style="margin-top:1rem">
+        <span class="tag">📝 Múltipla Escolha</span>
+        <span class="tag">📊 Relatórios</span>
+        <span class="tag">🗒️ Anotações</span>
+        <span class="tag">🔍 Busca de conteúdo</span>
+        <span class="tag">📁 Pastas</span>
+      </div>
+    </section>
 
-    <h2 style="margin-top:1.8rem"><span class="icon">🔑</span> Tabelas com AUTOINCREMENT</h2>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr><th>Tabela</th><th>Coluna</th><th>Tipo de chave</th></tr>
-        </thead>
-        <tbody>
-          <tr><td><code>USUARIO</code></td><td><code>cod_usuario</code></td><td>Simples</td></tr>
-          <tr><td><code>PASTA</code></td><td><code>cod_pasta</code></td><td>Simples</td></tr>
-          <tr><td><code>DISCIPLINA</code></td><td><code>cod_disc</code></td><td>Simples</td></tr>
-          <tr><td><code>SUPORTE</code></td><td><code>cod_suporte</code></td><td>Simples</td></tr>
-          <tr><td><code>RELATORIO</code></td><td><code>cod_relatorio</code></td><td>Simples</td></tr>
-          <tr><td><code>QUESTAO</code></td><td><code>cod_quest</code></td><td>Simples</td></tr>
-          <tr><td><code>HISTORICO</code></td><td><code>cod_resposta</code></td><td>Simples</td></tr>
-          <tr><td><code>CONTEUDO</code></td><td><code>cod_conteudo</code></td><td>Simples</td></tr>
-          <tr><td><code>ANOTACAO</code></td><td><code>cod_anota</code></td><td>Simples</td></tr>
-          <tr><td><code>ESTUDA / CONTEM / POSSUI</code></td><td>—</td><td>Composta (sem AUTOINCREMENT)</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-
-  <!-- COMO EXECUTAR -->
-  <section>
-    <h2><span class="icon">▶️</span> Como executar</h2>
-    <div class="steps">
-      <div class="step">
-        <div class="step-num">1</div>
-        <div class="step-content">
-          <strong>Instale o SQLite ou o DB Browser</strong>
-          Baixe em <a href="https://www.sqlite.org/download.html" target="_blank" style="color:var(--accent)">sqlite.org</a>
-          ou use o <a href="https://sqlitebrowser.org/" target="_blank" style="color:var(--accent)">DB Browser for SQLite</a> (interface gráfica)
+    <!-- EQUIPE -->
+    <section>
+      <div class="section-header">
+        <span class="icon">👩‍💻</span>
+        <h2>Equipe</h2>
+        <span class="line-num">§ 02</span>
+      </div>
+      <div class="team">
+        <div class="team-card">
+          <div class="team-avatar">🧑‍🎓</div>
+          <div class="team-name">Walesca Amaro Rodrigues</div>
+          <div class="team-mat">mat. 20241780019</div>
+          <div class="team-school">Instituto Federal da Paraíba — IFPB</div>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">👩‍🎓</div>
+          <div class="team-name">Rayssa Priscila Silva Nascimento</div>
+          <div class="team-mat">mat. 20241780013</div>
+          <div class="team-school">Instituto Federal da Paraíba — IFPB</div>
         </div>
       </div>
-      <div class="step">
-        <div class="step-num">2</div>
-        <div class="step-content">
-          <strong>Clone o repositório</strong>
-          <pre><code>git clone https://github.com/walescaamaro/LuminaSaber
-cd DataBase-LuminaSaber</code></pre>
+    </section>
+
+    <!-- MÓDULOS -->
+    <section>
+      <div class="section-header">
+        <span class="icon">🗂️</span>
+        <h2>Módulos da Aplicação</h2>
+        <span class="line-num">§ 03</span>
+      </div>
+      <div class="cards-grid">
+        <div class="card">
+          <span class="card-icon">🏠</span>
+          <div class="card-title">Cadastro / Home</div>
+          <div class="card-desc">Apresentação do site, cadastro de usuário e login.</div>
+          <span class="card-badge badge-public">Público</span>
+        </div>
+        <div class="card">
+          <span class="card-icon">📚</span>
+          <div class="card-title">Início</div>
+          <div class="card-desc">Seleção de disciplinas e definição do tempo e meta de estudo.</div>
+          <span class="card-badge badge-auth">Usuário logado</span>
+        </div>
+        <div class="card">
+          <span class="card-icon">✏️</span>
+          <div class="card-title">Exercício</div>
+          <div class="card-desc">Questões de múltipla escolha, barra de pesquisa, relatório e anotações.</div>
+          <span class="card-badge badge-auth">Usuário logado</span>
+        </div>
+        <div class="card">
+          <span class="card-icon">🗒️</span>
+          <div class="card-title">Anotações</div>
+          <div class="card-desc">Gerenciamento e organização de anotações por pastas.</div>
+          <span class="card-badge badge-auth">Usuário logado</span>
+        </div>
+        <div class="card">
+          <span class="card-icon">📅</span>
+          <div class="card-title">Histórico</div>
+          <div class="card-desc">Visualização e revisão de questões respondidas anteriormente.</div>
+          <span class="card-badge badge-auth">Usuário logado</span>
+        </div>
+        <div class="card">
+          <span class="card-icon">⚙️</span>
+          <div class="card-title">Configuração</div>
+          <div class="card-desc">Gerenciamento geral da plataforma.</div>
+          <span class="card-badge badge-admin">Administrador</span>
+        </div>
+        <div class="card">
+          <span class="card-icon">📋</span>
+          <div class="card-title">Cadastro de Exercícios</div>
+          <div class="card-desc">Inserção, edição e remoção de questões.</div>
+          <span class="card-badge badge-admin">Administrador</span>
         </div>
       </div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <div class="step-content">
-          <strong>Execute os scripts na ordem correta</strong>
-          <pre><code>sqlite3 lumina.db
+    </section>
 
-PRAGMA foreign_keys = ON;
-.read tabelas.sql
-.read insert.sql
-.read consultas.sql</code></pre>
+    <!-- TECNOLOGIAS -->
+    <section>
+      <div class="section-header">
+        <span class="icon">🚀</span>
+        <h2>Tecnologias Utilizadas</h2>
+        <span class="line-num">§ 04</span>
+      </div>
+      <div class="tech-grid">
+        <div class="tech-chip"><span class="dot green"></span>Node.js</div>
+        <div class="tech-chip"><span class="dot green"></span>Express</div>
+        <div class="tech-chip"><span class="dot green"></span>Morgan</div>
+        <div class="tech-chip"><span class="dot"></span>HTML</div>
+        <div class="tech-chip"><span class="dot"></span>CSS</div>
+        <div class="tech-chip"><span class="dot"></span>JavaScript (ES Modules)</div>
+        <div class="tech-chip"><span class="dot purple"></span>SQLite</div>
+        <div class="tech-chip"><span class="dot purple"></span>REST Client (VSCode)</div>
+        <div class="tech-chip"><span class="dot purple"></span>Git</div>
+      </div>
+    </section>
+
+    <!-- ESTRUTURA -->
+    <section>
+      <div class="section-header">
+        <span class="icon">📁</span>
+        <h2>Estrutura do Projeto</h2>
+        <span class="line-num">§ 05</span>
+      </div>
+      <div class="struct-tree">
+<span class="dir">LuminaSaber/</span>
+├── <span class="dir">public/</span>                         <span class="comment"># Arquivos front-end</span>
+│   ├── home.html                   <span class="comment"># Tela inicial</span>
+│   ├── cadastro.html               <span class="comment"># Página de cadastro</span>
+│   ├── cadastro_exercicios.html
+│   ├── seleção_disciplinas.html
+│   ├── <span class="dir">tela_exercicios/</span>            <span class="comment"># Módulo de exercícios</span>
+│   │   ├── exercicios.html
+│   │   ├── <span class="dir">css/</span>
+│   │   │   └── style.css
+│   │   └── <span class="dir">js/</span>
+│   │       ├── main.js
+│   │       ├── carregarQuestoes.js
+│   │       └── filtros.js
+│   └── <span class="dir">assets/</span>                     <span class="comment"># Imagens (onda.png, logo.png…)</span>
+├── <span class="dir">backend/</span>                        <span class="comment"># Servidor Node.js</span>
+│   ├── server.js
+│   ├── routes.js
+│   ├── rotas.http                  <span class="comment"># Testes REST Client</span>
+│   ├── <span class="dir">data/</span>
+│   │   └── questoes.json           <span class="comment"># Dados em memória</span>
+│   └── package.json
+└── README.md
+      </div>
+    </section>
+
+    <!-- COMO RODAR -->
+    <section>
+      <div class="section-header">
+        <span class="icon">▶️</span>
+        <h2>Como Rodar o Projeto</h2>
+        <span class="line-num">§ 06</span>
+      </div>
+      <p style="margin-bottom:1rem">Pré-requisito: <a href="https://nodejs.org/" target="_blank">Node.js</a> versão 18 ou superior instalado.</p>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <strong>Clone o repositório</strong>
+            <pre data-label="bash"><code>git clone https://github.com/walescaamaro/LuminaSaber.git</code></pre>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <strong>Entre na pasta do backend e instale as dependências</strong>
+            <pre data-label="bash"><code>cd LuminaSaber/backend
+npm install</code></pre>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <strong>Inicie o servidor</strong>
+            <pre data-label="bash"><code>node server.js</code></pre>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <strong>Acesse no navegador</strong>
+            Abra <code>http://localhost:3000</code> no seu browser.
+          </div>
         </div>
       </div>
-      <div class="step">
-        <div class="step-num">4</div>
-        <div class="step-content">
-          <strong>Ordem de inserção das tabelas</strong>
-          Respeite as dependências de chave estrangeira:
-          <pre><code>usuario → disciplina → conteudo → questao
-       → historico → pasta → anotacao
-       → contem → possui → estuda
-       → suporte → relatorio</code></pre>
-        </div>
+    </section>
+
+    <!-- API ROUTES -->
+    <section>
+      <div class="section-header">
+        <span class="icon">🔌</span>
+        <h2>Rotas da API</h2>
+        <span class="line-num">§ 07</span>
       </div>
-    </div>
-  </section>
+      <p style="margin-bottom:1rem">Base URL: <code>http://localhost:3000</code></p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Método</th><th>Rota</th><th>Descrição</th><th>Status</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="method method-get">GET</span></td>
+              <td><code>/api/questoes</code></td>
+              <td>Lista todas as questões</td>
+              <td><code>200</code></td>
+            </tr>
+            <tr>
+              <td><span class="method method-get">GET</span></td>
+              <td><code>/api/questoes/:id</code></td>
+              <td>Busca questão por ID</td>
+              <td><code>200 / 404</code></td>
+            </tr>
+            <tr>
+              <td><span class="method method-post">POST</span></td>
+              <td><code>/api/questoes</code></td>
+              <td>Cria nova questão</td>
+              <td><code>201 / 400</code></td>
+            </tr>
+            <tr>
+              <td><span class="method method-put">PUT</span></td>
+              <td><code>/api/questoes/:id</code></td>
+              <td>Atualiza questão existente</td>
+              <td><code>200 / 404</code></td>
+            </tr>
+            <tr>
+              <td><span class="method method-delete">DELETE</span></td>
+              <td><code>/api/questoes/:id</code></td>
+              <td>Remove uma questão</td>
+              <td><code>200 / 404</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
-  <!-- REPO PRINCIPAL -->
-  <section>
-    <h2><span class="icon">🔗</span> Repositório principal</h2>
-    <p>O código da aplicação (back-end e front-end) está em:</p>
-    <a class="btn" href="https://github.com/walescaamaro/LuminaSaber" target="_blank">
-      ↗ github.com/walescaamaro/LuminaSaber
-    </a>
-  </section>
+      <p style="margin-top:1.2rem; margin-bottom:.6rem">Exemplo de requisição POST:</p>
+      <pre data-label="JSON"><code><span class="kw">POST</span> <span class="str">/api/questoes</span>
+Content-Type: application/json
 
-  <!-- LICENÇA -->
-  <section>
-    <h2><span class="icon">📄</span> Licença</h2>
-    <p>
-      Este projeto foi desenvolvido para fins educacionais no
-      <strong>Instituto Federal de Educação, Ciência e Tecnologia da Paraíba (IFPB)</strong>.
-    </p>
-  </section>
+{
+  <span class="str">"nivel"</span>: <span class="str">"Fácil"</span>,
+  <span class="str">"materia"</span>: <span class="str">"Matemática"</span>,
+  <span class="str">"enunciado"</span>: <span class="str">"Quanto é 2 + 2?"</span>,
+  <span class="str">"alternativas"</span>: [<span class="str">"1"</span>, <span class="str">"2"</span>, <span class="str">"3"</span>, <span class="str">"4"</span>],
+  <span class="str">"correta"</span>: <span class="num">3</span>
+}</code></pre>
+    </section>
 
-  <footer>
-    <p>DataBase — LuminaSaber · IFPB ·
-      <a href="https://github.com/walescaamaro/LuminaSaber" target="_blank">GitHub ↗</a>
-    </p>
-  </footer>
+    <!-- DISCIPLINAS -->
+    <section>
+      <div class="section-header">
+        <span class="icon">📚</span>
+        <h2>Disciplinas Disponíveis</h2>
+        <span class="line-num">§ 08</span>
+      </div>
+      <div class="tags">
+        <span class="tag">📐 Matemática</span>
+        <span class="tag">📖 Português</span>
+        <span class="tag">🔬 Ciências</span>
+        <span class="tag">🌍 Geografia</span>
+        <span class="tag">🏛️ História</span>
+        <span class="tag">🎨 Artes</span>
+        <span class="tag">🇺🇸 Inglês</span>
+      </div>
+    </section>
 
+    <!-- BANCO DE DADOS -->
+    <section>
+      <div class="section-header">
+        <span class="icon">🗄️</span>
+        <h2>Banco de Dados</h2>
+        <span class="line-num">§ 09</span>
+      </div>
+      <p>
+        O projeto possui um modelo relacional completo desenvolvido em <strong>SQLite</strong>, com 12 tabelas. Os scripts estão organizados em um repositório dedicado.
+      </p>
+      <div class="tags" style="margin-top:.8rem">
+        <span class="tag">USUARIO</span>
+        <span class="tag">DISCIPLINA</span>
+        <span class="tag">CONTEUDO</span>
+        <span class="tag">QUESTAO</span>
+        <span class="tag">HISTORICO</span>
+        <span class="tag">PASTA</span>
+        <span class="tag">ANOTACAO</span>
+        <span class="tag">SUPORTE</span>
+        <span class="tag">RELATORIO</span>
+        <span class="tag">ESTUDA</span>
+        <span class="tag">POSSUI</span>
+        <span class="tag">CONTEM</span>
+      </div>
+      <a class="btn btn-outline" href="https://github.com/walescaamaro/DataBase-LuminaSaber" target="_blank" style="margin-top:1rem">
+        🗄️ Repositório do Banco de Dados ↗
+      </a>
+    </section>
+
+    <!-- PRÓXIMAS VERSÕES -->
+    <section>
+      <div class="section-header">
+        <span class="icon">🔄</span>
+        <h2>Funcionalidades Futuras</h2>
+        <span class="line-num">§ 10</span>
+      </div>
+      <div class="roadmap">
+        <div class="roadmap-item"><span class="ri">🔐</span> Cadastro e login com autenticação por perfil (aluno e administrador) <span class="status s-future">em breve</span></div>
+        <div class="roadmap-item"><span class="ri">⏱️</span> Temporizador de estudo e definição de meta de questões <span class="status s-future">em breve</span></div>
+        <div class="roadmap-item"><span class="ri">📊</span> Relatório de desempenho ao fim de cada sessão <span class="status s-future">em breve</span></div>
+        <div class="roadmap-item"><span class="ri">💡</span> Exibição de dicas ao errar uma questão <span class="status s-future">em breve</span></div>
+        <div class="roadmap-item"><span class="ri">🗒️</span> Módulo de anotações com criação de pastas, edição, exclusão e exportação em PDF <span class="status s-future">em breve</span></div>
+        <div class="roadmap-item"><span class="ri">📅</span> Módulo de histórico com opção de refazer questões <span class="status s-future">em breve</span></div>
+        <div class="roadmap-item"><span class="ri">👮</span> Painel do administrador e gerenciamento de usuários <span class="status s-future">em breve</span></div>
+        <div class="roadmap-item"><span class="ri">🔗</span> Integração completa com banco de dados SQLite <span class="status s-future">em breve</span></div>
+        <div class="roadmap-item"><span class="ri">🧠</span> Sistema adaptativo baseado na dificuldade do aluno <span class="status s-future">em breve</span></div>
+      </div>
+    </section>
+
+    <!-- REPO -->
+    <section>
+      <div class="section-header">
+        <span class="icon">🔗</span>
+        <h2>Repositório</h2>
+        <span class="line-num">§ 11</span>
+      </div>
+      <p>Código completo da aplicação (back-end e front-end):</p>
+      <a class="btn" href="https://github.com/walescaamaro/LuminaSaber" target="_blank">
+        ↗ github.com/walescaamaro/LuminaSaber
+      </a>
+    </section>
+
+    <!-- LICENÇA -->
+    <section>
+      <div class="section-header">
+        <span class="icon">📄</span>
+        <h2>Licença</h2>
+        <span class="line-num">§ 12</span>
+      </div>
+      <p>
+        Este projeto foi desenvolvido para fins educacionais no
+        <strong>Instituto Federal de Educação, Ciência e Tecnologia da Paraíba (IFPB)</strong>.
+      </p>
+    </section>
+
+    <footer>
+      <p>🌟 LuminaSaber · IFPB ·
+        <a href="https://github.com/walescaamaro/LuminaSaber" target="_blank">GitHub ↗</a>
+      </p>
+    </footer>
+
+  </div>
 </div>
 
 <script>
-  // Init: check saved preference or system preference
   const saved = localStorage.getItem('ls-theme');
   const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  const initial = saved || (prefersDark ? 'dark' : 'light');
-  setTheme(initial);
+  setTheme(saved || (prefersDark ? 'dark' : 'light'));
 
   function setTheme(theme) {
     document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem('ls-theme', theme);
-    const icon  = document.getElementById('toggle-icon');
-    const label = document.getElementById('toggle-label');
-    if (theme === 'dark') {
-      icon.textContent  = '☀️';
-      label.textContent = 'Tema claro';
-    } else {
-      icon.textContent  = '🌙';
-      label.textContent = 'Tema escuro';
-    }
+    document.getElementById('toggle-icon').textContent  = theme === 'dark' ? '☀️' : '🌙';
+    document.getElementById('toggle-label').textContent = theme === 'dark' ? 'Tema claro' : 'Tema escuro';
   }
 
   function toggleTheme() {
-    const current = document.documentElement.getAttribute('data-theme');
-    setTheme(current === 'dark' ? 'light' : 'dark');
+    setTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
   }
 </script>
 </body>
