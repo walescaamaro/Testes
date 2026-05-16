@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DataBase — LuminaSaber</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet" />
+  <style>
+    /* ── THEME TOKENS ── */
+    :root[data-theme="dark"] {
+      --bg:           #0b0e14;
+      --bg2:          #12161f;
+      --bg3:          #1a1f2e;
+      --border:       #252c3e;
+      --accent:       #5b8dee;
+      --accent2:      #a78bfa;
+      --text:         #e2e8f8;
+      --text-muted:   #6b7899;
+      --tag-bg:       #1e2540;
+      --tag-text:     #8ab4f8;
+      --code-bg:      #0d1117;
+      --code-text:    #7dd3a8;
+      --warn-bg:      #1f1a0e;
+      --warn-border:  #7c5f1a;
+      --warn-text:    #f5c842;
+      --table-head:   #161b28;
+      --table-row:    #0f131c;
+      --table-alt:    #131825;
+      --shadow:       0 4px 32px rgba(0,0,0,.45);
+    }
+    :root[data-theme="light"] {
+      --bg:           #f4f6fb;
+      --bg2:          #ffffff;
+      --bg3:          #eef1f9;
+      --border:       #d1d9ee;
+      --accent:       #2563eb;
+      --accent2:      #7c3aed;
+      --text:         #1a2035;
+      --text-muted:   #6b7899;
+      --tag-bg:       #dbeafe;
+      --tag-text:     #1d4ed8;
+      --code-bg:      #f0f4ff;
+      --code-text:    #166534;
+      --warn-bg:      #fffbeb;
+      --warn-border:  #d97706;
+      --warn-text:    #92400e;
+      --table-head:   #e8edf8;
+      --table-row:    #ffffff;
+      --table-alt:    #f4f6fb;
+      --shadow:       0 4px 24px rgba(30,40,80,.10);
+    }
+
+    /* ── RESET & BASE ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Syne', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      transition: background .3s, color .3s;
+      min-height: 100vh;
+    }
+
+    /* ── LAYOUT ── */
+    .container { max-width: 860px; margin: 0 auto; padding: 0 1.5rem 5rem; }
+
+    /* ── HEADER ── */
+    header {
+      position: relative;
+      padding: 3.5rem 0 2.5rem;
+      text-align: center;
+      overflow: hidden;
+    }
+    header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 55% at 50% 0%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 70%);
+      pointer-events: none;
+    }
+    .db-icon {
+      font-size: 3rem;
+      line-height: 1;
+      margin-bottom: .5rem;
+      display: block;
+    }
+    h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 800;
+      letter-spacing: -.02em;
+      background: linear-gradient(120deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .subtitle {
+      margin-top: .6rem;
+      color: var(--text-muted);
+      font-size: .95rem;
+    }
+    .subtitle a { color: var(--accent); text-decoration: none; }
+    .subtitle a:hover { text-decoration: underline; }
+    .badges { display: flex; gap: .5rem; justify-content: center; margin-top: 1.2rem; flex-wrap: wrap; }
+    .badge {
+      display: inline-flex; align-items: center; gap: .35rem;
+      background: var(--tag-bg); color: var(--tag-text);
+      border: 1px solid var(--border);
+      border-radius: 999px; padding: .25rem .85rem;
+      font-size: .78rem; font-family: 'Space Mono', monospace;
+      font-weight: 700; letter-spacing: .03em;
+    }
+
+    /* ── THEME TOGGLE ── */
+    .theme-toggle {
+      position: fixed; top: 1.2rem; right: 1.4rem; z-index: 100;
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 999px; padding: .4rem .9rem;
+      cursor: pointer; font-size: .8rem; font-family: 'Space Mono', monospace;
+      color: var(--text); display: flex; align-items: center; gap: .4rem;
+      box-shadow: var(--shadow); transition: all .2s;
+      user-select: none;
+    }
+    .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+    .toggle-icon { font-size: 1rem; }
+
+    /* ── DIVIDER ── */
+    hr { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+
+    /* ── SECTIONS ── */
+    section { margin-bottom: 2.8rem; }
+    h2 {
+      font-size: 1.25rem; font-weight: 800;
+      display: flex; align-items: center; gap: .5rem;
+      margin-bottom: 1rem; padding-bottom: .5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    h2 .icon { font-size: 1.1rem; }
+    p { color: var(--text-muted); font-size: .95rem; }
+    p + p { margin-top: .6rem; }
+
+    /* ── WARNING BOX ── */
+    .warn {
+      background: var(--warn-bg); border: 1px solid var(--warn-border);
+      border-left: 4px solid var(--warn-border);
+      border-radius: 8px; padding: 1rem 1.2rem;
+      color: var(--warn-text); font-size: .9rem;
+    }
+    .warn strong { display: block; margin-bottom: .4rem; font-size: .95rem; }
+    .warn ul { margin-top: .4rem; padding-left: 1.2rem; }
+    .warn li { margin-bottom: .2rem; }
+
+    /* ── CODE ── */
+    code {
+      font-family: 'Space Mono', monospace;
+      background: var(--code-bg); color: var(--code-text);
+      border-radius: 4px; padding: .15em .45em;
+      font-size: .82em;
+    }
+    pre {
+      background: var(--code-bg); border: 1px solid var(--border);
+      border-radius: 10px; padding: 1.1rem 1.3rem;
+      overflow-x: auto; margin: .8rem 0;
+    }
+    pre code {
+      background: none; padding: 0;
+      font-size: .83rem; color: var(--code-text);
+    }
+
+    /* ── TABLES ── */
+    .table-wrap { overflow-x: auto; border-radius: 10px; border: 1px solid var(--border); }
+    table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+    thead tr { background: var(--table-head); }
+    th {
+      padding: .7rem 1rem; text-align: left;
+      font-weight: 700; font-size: .8rem;
+      letter-spacing: .06em; text-transform: uppercase;
+      color: var(--text-muted); border-bottom: 1px solid var(--border);
+    }
+    td { padding: .65rem 1rem; border-bottom: 1px solid var(--border); }
+    tr:last-child td { border-bottom: none; }
+    tbody tr:nth-child(odd)  { background: var(--table-row); }
+    tbody tr:nth-child(even) { background: var(--table-alt); }
+    tbody tr:hover { background: color-mix(in srgb, var(--accent) 8%, transparent); }
+
+    /* ── TAGS GRID ── */
+    .tags { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .5rem; }
+    .tag {
+      background: var(--tag-bg); color: var(--tag-text);
+      border: 1px solid var(--border); border-radius: 6px;
+      padding: .25rem .7rem; font-family: 'Space Mono', monospace;
+      font-size: .78rem; font-weight: 700;
+    }
+
+    /* ── TEAM CARDS ── */
+    .team { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .card {
+      flex: 1; min-width: 220px;
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 12px; padding: 1.1rem 1.3rem;
+      box-shadow: var(--shadow);
+      transition: border-color .2s, transform .2s;
+    }
+    .card:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .card-name { font-weight: 700; font-size: .97rem; margin-bottom: .25rem; }
+    .card-mat { font-family: 'Space Mono', monospace; color: var(--text-muted); font-size: .8rem; }
+    .card-school { font-size: .8rem; color: var(--text-muted); margin-top: .4rem; }
+
+    /* ── STEPS ── */
+    .steps { display: flex; flex-direction: column; gap: .8rem; }
+    .step {
+      display: flex; gap: 1rem; align-items: flex-start;
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 10px; padding: .9rem 1.1rem;
+    }
+    .step-num {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff; border-radius: 50%; width: 1.8rem; height: 1.8rem;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .8rem; font-weight: 700; flex-shrink: 0; margin-top: .1rem;
+    }
+    .step-content { font-size: .92rem; color: var(--text-muted); }
+    .step-content strong { display: block; color: var(--text); margin-bottom: .1rem; }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center; padding: 2rem 0 1rem;
+      color: var(--text-muted); font-size: .82rem; border-top: 1px solid var(--border);
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    /* ── LINK BUTTON ── */
+    .btn {
+      display: inline-flex; align-items: center; gap: .4rem;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff; border-radius: 8px; padding: .55rem 1.1rem;
+      font-weight: 700; font-size: .88rem; text-decoration: none;
+      transition: opacity .2s, transform .2s; margin-top: .6rem;
+    }
+    .btn:hover { opacity: .88; transform: translateY(-1px); }
+
+    @media (max-width: 600px) {
+      .team { flex-direction: column; }
+      .theme-toggle span.label { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<button class="theme-toggle" onclick="toggleTheme()" aria-label="Alternar tema">
+  <span class="toggle-icon" id="toggle-icon">☀️</span>
+  <span class="label" id="toggle-label">Tema claro</span>
+</button>
+
+<div class="container">
+
+  <header>
+    <span class="db-icon">🗄️</span>
+    <h1>DataBase — LuminaSaber</h1>
+    <p class="subtitle">
+      Scripts SQLite do banco de dados da plataforma
+      <a href="https://github.com/walescaamaro/LuminaSaber" target="_blank">LuminaSaber ↗</a>
+    </p>
+    <div class="badges">
+      <span class="badge">🧩 12 tabelas</span>
+      <span class="badge">🗃️ SQLite</span>
+      <span class="badge">🏫 IFPB</span>
+    </div>
+  </header>
+
+  <hr />
+
+  <section>
+    <h2><span class="icon">📖</span> Sobre este repositório</h2>
+    <p>
+      Este repositório contém todos os scripts SQL do banco de dados relacional do projeto
+      <strong>LuminaSaber</strong>, desenvolvido em <strong>SQLite</strong>.
+      Os arquivos estão organizados por operação para facilitar a leitura e execução.
+    </p>
+    <p style="margin-top:.8rem">
+      O banco foi originalmente modelado em <strong>PostgreSQL</strong> e migrado para
+      <strong>SQLite</strong>. Veja abaixo as principais adaptações realizadas:
+    </p>
+    <div class="warn" style="margin-top:1rem">
+      <strong>⚠️ Adaptações PostgreSQL → SQLite</strong>
+      <ul>
+        <li><code>ENUM</code> substituído por <code>TEXT</code> com <code>CHECK</code></li>
+        <li><code>ALTER TABLE ADD CONSTRAINT</code> movido para dentro do <code>CREATE TABLE</code></li>
+        <li>Tipo <code>TIME</code> substituído por <code>TEXT</code> (formato <code>'HH:MM:SS'</code>)</li>
+        <li><code>AUTOINCREMENT</code> adicionado em todas as chaves primárias simples</li>
+        <li><code>PRAGMA foreign_keys = ON;</code> necessário para ativar chaves estrangeiras</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="icon">👩‍💻</span> Equipe</h2>
+    <div class="team">
+      <div class="card">
+        <div class="card-name">Walesca Amaro Rodrigues</div>
+        <div class="card-mat">Matrícula: 20241780019</div>
+        <div class="card-school">Instituto Federal da Paraíba — IFPB</div>
+      </div>
+      <div class="card">
+        <div class="card-name">Rayssa Priscila Silva Nascimento</div>
+        <div class="card-mat">Matrícula: 20241780013</div>
+        <div class="card-school">Instituto Federal da Paraíba — IFPB</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="icon">📁</span> Arquivos</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Arquivo</th><th>O que faz</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>tabelas.sql</code></td><td>Cria todas as tabelas, constraints e relacionamentos em SQLite</td></tr>
+          <tr><td><code>insert.sql</code></td><td>Insere os dados iniciais em todas as tabelas</td></tr>
+          <tr><td><code>consultas.sql</code></td><td>Consultas com SELECT, WHERE, JOIN e ordenação</td></tr>
+          <tr><td><code>atualização de dados (update).sql</code></td><td>Atualização de registros com UPDATE</td></tr>
+          <tr><td><code>delete.sql</code></td><td>Exclusão de registros com DELETE</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="icon">🧩</span> Tabelas do Banco</h2>
+    <p>O modelo é composto por <strong>12 tabelas</strong>:</p>
+    <div class="tags">
+      <span class="tag">USUARIO</span>
+      <span class="tag">DISCIPLINA</span>
+      <span class="tag">CONTEUDO</span>
+      <span class="tag">QUESTAO</span>
+      <span class="tag">HISTORICO</span>
+      <span class="tag">PASTA</span>
+      <span class="tag">ANOTACAO</span>
+      <span class="tag">SUPORTE</span>
+      <span class="tag">RELATORIO</span>
+      <span class="tag">ESTUDA</span>
+      <span class="tag">POSSUI</span>
+      <span class="tag">CONTEM</span>
+    </div>
+
+    <h2 style="margin-top:1.8rem"><span class="icon">🔑</span> Tabelas com AUTOINCREMENT</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Tabela</th><th>Coluna</th><th>Tipo de chave</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>USUARIO</code></td><td><code>cod_usuario</code></td><td>Simples</td></tr>
+          <tr><td><code>PASTA</code></td><td><code>cod_pasta</code></td><td>Simples</td></tr>
+          <tr><td><code>DISCIPLINA</code></td><td><code>cod_disc</code></td><td>Simples</td></tr>
+          <tr><td><code>SUPORTE</code></td><td><code>cod_suporte</code></td><td>Simples</td></tr>
+          <tr><td><code>RELATORIO</code></td><td><code>cod_relatorio</code></td><td>Simples</td></tr>
+          <tr><td><code>QUESTAO</code></td><td><code>cod_quest</code></td><td>Simples</td></tr>
+          <tr><td><code>HISTORICO</code></td><td><code>cod_resposta</code></td><td>Simples</td></tr>
+          <tr><td><code>CONTEUDO</code></td><td><code>cod_conteudo</code></td><td>Simples</td></tr>
+          <tr><td><code>ANOTACAO</code></td><td><code>cod_anota</code></td><td>Simples</td></tr>
+          <tr><td><code>ESTUDA / CONTEM / POSSUI</code></td><td>—</td><td>Composta (sem AUTOINCREMENT)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="icon">▶️</span> Como executar</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <strong>Instale o SQLite ou o DB Browser</strong>
+          Baixe em <a href="https://www.sqlite.org/download.html" target="_blank" style="color:var(--accent)">sqlite.org</a>
+          ou use o <a href="https://sqlitebrowser.org/" target="_blank" style="color:var(--accent)">DB Browser for SQLite</a> (interface gráfica)
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <strong>Clone o repositório</strong>
+          <pre><code>git clone https://github.com/walescaamaro/LuminaSaber
+cd LuminaSaber</code></pre>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <strong>Execute os scripts na ordem correta</strong>
+          <pre><code>sqlite3 lumina.db
+
+PRAGMA foreign_keys = ON;
+.read tabelas.sql
+.read insert.sql
+.read consultas.sql</code></pre>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <strong>Ordem de inserção das tabelas</strong>
+          Respeite as dependências de chave estrangeira:
+          <pre><code>usuario → disciplina → conteudo → questao
+       → historico → pasta → anotacao
+       → contem → possui → estuda
+       → suporte → relatorio</code></pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="icon">🔗</span> Repositório principal</h2>
+    <p>O código da aplicação (back-end e front-end) está em:</p>
+    <a class="btn" href="https://github.com/walescaamaro/LuminaSaber" target="_blank">
+      ↗ github.com/walescaamaro/LuminaSaber
+    </a>
+  </section>
+
+  <section>
+    <h2><span class="icon">📄</span> Licença</h2>
+    <p>
+      Este projeto foi desenvolvido para fins educacionais no
+      <strong>Instituto Federal de Educação, Ciência e Tecnologia da Paraíba (IFPB)</strong>.
+    </p>
+  </section>
+
+  <footer>
+    <p>DataBase — LuminaSaber · IFPB ·
+      <a href="https://github.com/walescaamaro/LuminaSaber" target="_blank">GitHub ↗</a>
+    </p>
+  </footer>
+
+</div>
+
+<script>
+  // Init: check saved preference or system preference
+  const saved = localStorage.getItem('ls-theme');
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const initial = saved || (prefersDark ? 'dark' : 'light');
+  setTheme(initial);
+
+  function setTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('ls-theme', theme);
+    const icon  = document.getElementById('toggle-icon');
+    const label = document.getElementById('toggle-label');
+    if (theme === 'dark') {
+      icon.textContent  = '☀️';
+      label.textContent = 'Tema claro';
+    } else {
+      icon.textContent  = '🌙';
+      label.textContent = 'Tema escuro';
+    }
+  }
+
+  function toggleTheme() {
+    const current = document.documentElement.getAttribute('data-theme');
+    setTheme(current === 'dark' ? 'light' : 'dark');
+  }
+</script>
+</body>
+</html>
