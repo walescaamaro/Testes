@@ -1,780 +1,545 @@
 <!DOCTYPE html>
-<html lang="pt-BR" data-theme="dark">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>LuminaSaber — README</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Outfit:wght@300;400;600;800;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700&family=Caveat:wght@700&display=swap" rel="stylesheet" />
   <style>
-    /* ── THEME TOKENS ── */
-    :root[data-theme="dark"] {
-      --bg:           #090c12;
-      --bg2:          #0f1320;
-      --bg3:          #151b2e;
-      --bg4:          #1c2540;
-      --border:       #1e2a45;
-      --border2:      #2a3a60;
-      --accent:       #38bdf8;
-      --accent2:      #818cf8;
-      --accent3:      #34d399;
-      --glow:         rgba(56,189,248,0.18);
-      --glow2:        rgba(129,140,248,0.14);
-      --text:         #e8f0ff;
-      --text-muted:   #5a6a90;
-      --text-dim:     #8496c0;
-      --tag-bg:       #0f1a30;
-      --tag-text:     #60a5fa;
-      --code-bg:      #070a10;
-      --code-text:    #34d399;
-      --code-border:  #1a2540;
-      --warn-bg:      #12100a;
-      --warn-border:  #b45309;
-      --warn-text:    #fcd34d;
-      --table-head:   #0b1022;
-      --table-row:    #0d1220;
-      --table-alt:    #0f1528;
-      --shadow:       0 8px 48px rgba(0,0,0,.7), 0 2px 8px rgba(56,189,248,.06);
-      --card-hover:   0 0 0 1px var(--accent), 0 8px 32px var(--glow);
-      --noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");
+    :root {
+      --cyan:       #00C9CC;
+      --cyan-dark:  #00A8AB;
+      --cyan-light: #b2f0f1;
+      --cyan-pale:  #e0fafa;
+      --navy:       #2D4A7A;
+      --navy-dark:  #1e3358;
+      --white:      #ffffff;
+      --gold:       #F5C842;
+      --gold-dark:  #c49b10;
+      --text-dark:  #1a2b3c;
+      --text-mid:   #3a5068;
+      --text-muted: #6a8498;
+      --card-shadow: 0 4px 20px rgba(0,100,120,0.13);
+      --card-hover:  0 8px 32px rgba(0,100,120,0.22);
     }
-    :root[data-theme="light"] {
-      --bg:           #f0f4ff;
-      --bg2:          #ffffff;
-      --bg3:          #e8eeff;
-      --bg4:          #dce5ff;
-      --border:       #c8d5f0;
-      --border2:      #a0b4e0;
-      --accent:       #0284c7;
-      --accent2:      #4f46e5;
-      --accent3:      #059669;
-      --glow:         rgba(2,132,199,0.12);
-      --glow2:        rgba(79,70,229,0.10);
-      --text:         #0f1a35;
-      --text-muted:   #6b7db0;
-      --text-dim:     #4a5980;
-      --tag-bg:       #dbeafe;
-      --tag-text:     #1d4ed8;
-      --code-bg:      #f0f5ff;
-      --code-text:    #047857;
-      --code-border:  #c8d5f0;
-      --warn-bg:      #fffbeb;
-      --warn-border:  #d97706;
-      --warn-text:    #78350f;
-      --table-head:   #e4ebff;
-      --table-row:    #ffffff;
-      --table-alt:    #f2f6ff;
-      --shadow:       0 8px 32px rgba(15,26,53,0.10), 0 2px 8px rgba(2,132,199,.05);
-      --card-hover:   0 0 0 1px var(--accent), 0 8px 24px var(--glow);
-      --noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='.02'/%3E%3C/svg%3E");
-    }
-
-    /* ── RESET ── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
-      font-family: 'Outfit', sans-serif;
-      background: var(--bg);
-      color: var(--text);
+      font-family: 'Nunito', sans-serif;
+      background: var(--cyan);
+      color: var(--text-dark);
       line-height: 1.7;
       min-height: 100vh;
-      transition: background .35s, color .35s;
       overflow-x: hidden;
+      position: relative;
     }
 
-    /* ── BACKGROUND GRID ── */
-    body::before {
-      content: '';
-      position: fixed; inset: 0; z-index: 0;
-      background-image:
-        linear-gradient(var(--border) 1px, transparent 1px),
-        linear-gradient(90deg, var(--border) 1px, transparent 1px);
-      background-size: 44px 44px;
-      opacity: .35;
+    /* ── BLOB SHAPES ── */
+    .blob {
+      position: fixed;
+      background: rgba(255,255,255,0.16);
       pointer-events: none;
+      z-index: 0;
     }
-    body::after {
-      content: '';
-      position: fixed; inset: 0; z-index: 0;
-      background: var(--noise);
-      pointer-events: none;
-    }
+    .blob-tl { width:300px;height:280px;top:-90px;left:-90px;border-radius:0% 65% 55% 40%/0% 55% 65% 50%; }
+    .blob-tr { width:220px;height:200px;top:-50px;right:-50px;border-radius:65% 0% 45% 55%/55% 0% 65% 50%; }
+    .blob-bl { width:260px;height:240px;bottom:-80px;left:-70px;border-radius:45% 65% 0% 55%/65% 55% 0% 50%; }
+    .blob-br { width:240px;height:220px;bottom:-70px;right:-60px;border-radius:65% 45% 55% 0%/55% 65% 0% 50%; }
 
-    /* ── LAYOUT ── */
-    .wrapper { position: relative; z-index: 1; }
-    .container { max-width: 900px; margin: 0 auto; padding: 0 1.5rem 6rem; }
+    .wrapper { position:relative;z-index:1; }
+    .container { max-width:920px;margin:0 auto;padding:0 1.5rem 5rem; }
 
-    /* ── THEME TOGGLE ── */
-    .theme-toggle {
-      position: fixed; top: 1.2rem; right: 1.5rem; z-index: 200;
-      background: var(--bg2);
-      border: 1px solid var(--border2);
-      border-radius: 999px;
-      padding: .45rem 1rem;
-      cursor: pointer;
-      font-size: .78rem;
-      font-family: 'JetBrains Mono', monospace;
-      color: var(--text-dim);
-      display: flex; align-items: center; gap: .45rem;
-      box-shadow: var(--shadow);
-      transition: all .2s;
-      user-select: none;
-      letter-spacing: .02em;
+    /* ── TOPBAR ── */
+    .topbar {
+      background:rgba(255,255,255,0.18);
+      backdrop-filter:blur(10px);
+      border-bottom:1px solid rgba(255,255,255,0.3);
+      padding:.7rem 2rem;
+      display:flex;align-items:center;justify-content:space-between;
+      position:sticky;top:0;z-index:100;
     }
-    .theme-toggle:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-      box-shadow: 0 0 0 1px var(--accent), var(--shadow);
+    .topbar-logo {
+      font-family:'Caveat',cursive;font-size:1.5rem;
+      color:var(--white);text-shadow:0 2px 8px rgba(0,0,0,.15);
+      display:flex;align-items:center;gap:.4rem;
     }
+    .topbar-links { display:flex;gap:.5rem; }
+    .topbar-btn {
+      background:transparent;border:2px solid rgba(255,255,255,0.65);border-radius:999px;
+      color:var(--white);font-family:'Nunito',sans-serif;font-weight:800;font-size:.78rem;
+      padding:.3rem 1rem;cursor:pointer;transition:background .2s;text-decoration:none;
+      display:inline-flex;align-items:center;
+    }
+    .topbar-btn:hover { background:rgba(255,255,255,0.28); }
+    .topbar-btn.filled { background:var(--navy);border-color:var(--navy); }
+    .topbar-btn.filled:hover { background:var(--navy-dark); }
 
     /* ── HEADER ── */
-    header {
-      position: relative;
-      padding: 5rem 0 3rem;
-      text-align: center;
-      overflow: hidden;
+    header { padding:4rem 0 3rem;text-align:center;position:relative; }
+    .logo-big {
+      font-family:'Caveat',cursive;
+      font-size:clamp(3rem,8vw,5.5rem);
+      color:var(--white);
+      text-shadow:0 4px 16px rgba(0,0,0,.18),0 2px 0 rgba(0,0,0,.1);
+      line-height:1.05;
+      display:flex;align-items:center;justify-content:center;gap:.3rem;flex-wrap:wrap;
+      animation:fadeDown .6s ease both;
     }
-    .header-glow {
-      position: absolute;
-      top: -40px; left: 50%; transform: translateX(-50%);
-      width: 700px; height: 350px;
-      background: radial-gradient(ellipse, var(--glow) 0%, var(--glow2) 40%, transparent 70%);
-      pointer-events: none;
-      border-radius: 50%;
+    .bulb { animation:wobble 3s ease-in-out infinite;display:inline-block; }
+    @keyframes wobble { 0%,100%{transform:rotate(-5deg);}50%{transform:rotate(5deg);} }
+    @keyframes fadeDown { from{opacity:0;transform:translateY(-18px);}to{opacity:1;transform:translateY(0);} }
+    .tagline {
+      font-family:'Caveat',cursive;font-size:clamp(1.1rem,2.5vw,1.6rem);
+      color:rgba(255,255,255,.9);margin-top:.25rem;
+      animation:fadeDown .7s .1s ease both;
     }
-    .logo-wrap {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: .7rem;
-      margin-bottom: 1.6rem;
-      position: relative;
+    .intro-card {
+      background:rgba(178,240,241,0.48);border:2px solid rgba(255,255,255,.6);
+      border-radius:20px;padding:1.6rem 2rem;max-width:660px;margin:2rem auto 0;
+      font-size:1rem;font-weight:700;color:var(--navy-dark);text-align:center;line-height:1.75;
+      backdrop-filter:blur(4px);animation:fadeDown .8s .2s ease both;
     }
-    .logo-icon {
-      font-size: 2.6rem;
-      filter: drop-shadow(0 0 12px var(--accent));
-      animation: pulse-glow 3s ease-in-out infinite;
-    }
-    @keyframes pulse-glow {
-      0%, 100% { filter: drop-shadow(0 0 10px var(--accent)); }
-      50%       { filter: drop-shadow(0 0 22px var(--accent)) drop-shadow(0 0 40px var(--glow2)); }
-    }
-    .logo-title {
-      font-size: clamp(2.6rem, 6vw, 4rem);
-      font-weight: 900;
-      letter-spacing: -.03em;
-      background: linear-gradient(110deg, var(--accent) 0%, var(--accent2) 55%, var(--accent3) 100%);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text;
-      line-height: 1;
-    }
-    .header-tagline {
-      font-size: 1.05rem;
-      color: var(--text-dim);
-      max-width: 520px;
-      margin: 0 auto 1.6rem;
-      font-weight: 300;
-    }
-    .header-tagline strong { color: var(--text); font-weight: 600; }
+    .intro-card strong { color:var(--navy-dark); }
     .badges {
-      display: flex; gap: .5rem; justify-content: center; flex-wrap: wrap;
-      margin-top: 1rem;
+      display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;
+      margin-top:1.5rem;animation:fadeDown .9s .3s ease both;
     }
     .badge {
-      display: inline-flex; align-items: center; gap: .35rem;
-      background: var(--tag-bg);
-      color: var(--tag-text);
-      border: 1px solid var(--border2);
-      border-radius: 6px;
-      padding: .3rem .9rem;
-      font-size: .75rem;
-      font-family: 'JetBrains Mono', monospace;
-      font-weight: 700;
-      letter-spacing: .04em;
-      transition: border-color .2s, box-shadow .2s;
+      display:inline-flex;align-items:center;gap:.3rem;
+      background:var(--navy);color:var(--white);border-radius:999px;
+      padding:.35rem 1rem;font-size:.78rem;font-weight:800;letter-spacing:.02em;
+      box-shadow:0 2px 8px rgba(0,0,0,.22);transition:transform .2s,box-shadow .2s;
     }
-    .badge:hover {
-      border-color: var(--accent);
-      box-shadow: 0 0 8px var(--glow);
-    }
+    .badge:hover { transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.28); }
 
-    /* ── DIVIDER ── */
-    .divider {
-      display: flex; align-items: center; gap: 1rem;
-      margin: 2.5rem 0;
+    /* ── PANEL (white card) ── */
+    .panel {
+      background:var(--white);border-radius:24px;padding:2rem 2.2rem;
+      margin-bottom:1.8rem;box-shadow:var(--card-shadow);
+      position:relative;overflow:hidden;
+      animation:fadeUp .5s ease both;
     }
-    .divider::before, .divider::after {
-      content: ''; flex: 1;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--border2), transparent);
+    .panel::before {
+      content:'';position:absolute;top:0;left:0;right:0;height:5px;
+      background:linear-gradient(90deg,var(--cyan),var(--navy));
     }
-    .divider-dot {
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: var(--accent);
-      box-shadow: 0 0 8px var(--accent);
-    }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);} }
 
-    /* ── SECTIONS ── */
-    section { margin-bottom: 3.2rem; }
+    /* ── SECTION HEADER ── */
     .section-header {
-      display: flex; align-items: center; gap: .7rem;
-      margin-bottom: 1.2rem;
-      padding-bottom: .7rem;
-      border-bottom: 1px solid var(--border);
+      display:flex;align-items:center;gap:.7rem;
+      margin-bottom:1.2rem;padding-bottom:.75rem;
+      border-bottom:2px solid var(--cyan-pale);
     }
-    .section-header .icon {
-      font-size: 1.2rem;
-      filter: drop-shadow(0 0 6px var(--accent));
+    .section-icon {
+      width:42px;height:42px;background:var(--cyan-pale);border-radius:12px;
+      display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;
     }
     .section-header h2 {
-      font-size: 1.1rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: .1em;
-      color: var(--text);
+      font-size:1.12rem;font-weight:900;color:var(--navy);
+      text-transform:uppercase;letter-spacing:.08em;
     }
-    .section-header .line-num {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: .72rem;
-      color: var(--text-muted);
-      margin-left: auto;
+    .section-num {
+      margin-left:auto;font-size:.7rem;font-weight:800;color:var(--text-muted);
+      background:var(--cyan-pale);padding:.25rem .65rem;border-radius:999px;
+      font-family:monospace;letter-spacing:.05em;
     }
 
-    p { color: var(--text-dim); font-size: .95rem; line-height: 1.8; }
-    p + p { margin-top: .7rem; }
-    a { color: var(--accent); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-
-    /* ── CARDS GRID ── */
-    .cards-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 1rem;
-    }
-    .card {
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 1.3rem 1.5rem;
-      box-shadow: var(--shadow);
-      transition: box-shadow .25s, transform .25s;
-      position: relative;
-      overflow: hidden;
-    }
-    .card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, var(--accent), var(--accent2));
-      opacity: 0;
-      transition: opacity .25s;
-    }
-    .card:hover { box-shadow: var(--card-hover); transform: translateY(-3px); }
-    .card:hover::before { opacity: 1; }
-    .card-icon { font-size: 1.6rem; margin-bottom: .6rem; display: block; }
-    .card-title { font-weight: 700; font-size: 1rem; margin-bottom: .25rem; color: var(--text); }
-    .card-desc { font-size: .85rem; color: var(--text-dim); line-height: 1.6; }
-    .card-badge {
-      display: inline-block;
-      margin-top: .7rem;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: .68rem;
-      font-weight: 700;
-      padding: .2rem .6rem;
-      border-radius: 4px;
-      letter-spacing: .04em;
-    }
-    .badge-public { background: rgba(52,211,153,.12); color: var(--accent3); border: 1px solid rgba(52,211,153,.3); }
-    .badge-auth   { background: rgba(56,189,248,.12); color: var(--accent);  border: 1px solid rgba(56,189,248,.3); }
-    .badge-admin  { background: rgba(129,140,248,.12); color: var(--accent2); border: 1px solid rgba(129,140,248,.3); }
-
-    /* ── TABLE ── */
-    .table-wrap {
-      overflow-x: auto;
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow);
-    }
-    table { width: 100%; border-collapse: collapse; font-size: .88rem; }
-    thead tr { background: var(--table-head); }
-    th {
-      padding: .8rem 1.1rem;
-      text-align: left;
-      font-family: 'JetBrains Mono', monospace;
-      font-weight: 700;
-      font-size: .72rem;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      border-bottom: 1px solid var(--border);
-    }
-    td { padding: .72rem 1.1rem; border-bottom: 1px solid var(--border); color: var(--text-dim); }
-    tr:last-child td { border-bottom: none; }
-    tbody tr:nth-child(odd)  { background: var(--table-row); }
-    tbody tr:nth-child(even) { background: var(--table-alt); }
-    tbody tr { transition: background .15s; }
-    tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, transparent); }
-    td code, th code {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: .78em;
-      background: var(--code-bg);
-      color: var(--code-text);
-      padding: .15em .45em;
-      border-radius: 4px;
-      border: 1px solid var(--code-border);
-    }
-    .method {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: .75rem;
-      font-weight: 700;
-      padding: .15em .5em;
-      border-radius: 4px;
-    }
-    .method-get    { background: rgba(52,211,153,.12); color: #34d399; border: 1px solid rgba(52,211,153,.3); }
-    .method-post   { background: rgba(56,189,248,.12); color: #38bdf8; border: 1px solid rgba(56,189,248,.3); }
-    .method-put    { background: rgba(251,191,36,.12);  color: #fbbf24; border: 1px solid rgba(251,191,36,.3); }
-    .method-delete { background: rgba(248,113,113,.12); color: #f87171; border: 1px solid rgba(248,113,113,.3); }
+    p { color:var(--text-mid);font-size:.96rem;line-height:1.8;font-weight:600; }
+    p + p { margin-top:.6rem; }
+    a { color:var(--navy);font-weight:800;text-decoration:none; }
+    a:hover { text-decoration:underline; }
+    strong { color:var(--text-dark); }
 
     /* ── TAGS ── */
-    .tags { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .6rem; }
+    .tags { display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.8rem; }
     .tag {
-      background: var(--tag-bg);
-      color: var(--tag-text);
-      border: 1px solid var(--border2);
-      border-radius: 6px;
-      padding: .28rem .75rem;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: .74rem;
-      font-weight: 700;
-      letter-spacing: .02em;
-      transition: border-color .2s, box-shadow .2s;
+      background:var(--cyan-pale);color:var(--navy-dark);
+      border:2px solid var(--cyan-light);border-radius:999px;
+      padding:.3rem .85rem;font-size:.8rem;font-weight:800;
+      transition:background .2s,border-color .2s,transform .15s;
     }
-    .tag:hover { border-color: var(--accent); box-shadow: 0 0 8px var(--glow); }
+    .tag:hover { background:var(--cyan-light);border-color:var(--cyan);transform:translateY(-1px); }
+
+    /* ── TEAM ── */
+    .team { display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem; }
+    .team-card {
+      background:var(--cyan-pale);border:2px solid var(--cyan-light);border-radius:20px;
+      padding:1.4rem 1.5rem;display:flex;flex-direction:column;gap:.35rem;
+      transition:box-shadow .25s,transform .25s;
+    }
+    .team-card:hover { box-shadow:var(--card-hover);transform:translateY(-3px); }
+    .team-avatar {
+      width:52px;height:52px;border-radius:14px;background:var(--cyan);
+      display:flex;align-items:center;justify-content:center;font-size:1.6rem;
+      margin-bottom:.5rem;box-shadow:0 4px 12px rgba(0,180,200,.25);
+    }
+    .team-name { font-weight:900;font-size:1rem;color:var(--navy-dark); }
+    .team-mat { font-size:.75rem;font-weight:700;color:var(--text-muted);font-family:monospace;letter-spacing:.04em; }
+    .team-course {
+      margin-top:.4rem;background:var(--navy);color:var(--white);
+      border-radius:999px;font-size:.72rem;font-weight:800;
+      padding:.28rem .85rem;display:inline-block;align-self:flex-start;
+      line-height:1.4;
+    }
+    .team-school { font-size:.8rem;font-weight:700;color:var(--text-muted);margin-top:.3rem; }
+
+    /* ── MODULE CARDS ── */
+    .cards-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem; }
+    .card {
+      background:var(--white);border:2px solid var(--cyan-light);border-radius:18px;
+      padding:1.3rem 1.4rem;box-shadow:0 2px 10px rgba(0,120,140,.08);
+      transition:box-shadow .25s,transform .25s,border-color .25s;
+      position:relative;overflow:hidden;
+    }
+    .card:hover { box-shadow:var(--card-hover);transform:translateY(-3px);border-color:var(--cyan); }
+    .card-icon { font-size:1.8rem;margin-bottom:.5rem;display:block; }
+    .card-title { font-weight:900;font-size:1rem;margin-bottom:.25rem;color:var(--navy-dark); }
+    .card-desc { font-size:.85rem;color:var(--text-muted);line-height:1.6;font-weight:600; }
+    .card-pill {
+      display:inline-block;margin-top:.75rem;font-size:.68rem;font-weight:900;
+      padding:.22rem .75rem;border-radius:999px;letter-spacing:.04em;
+    }
+    .pill-public { background:#e0faf4;color:#0a7a62;border:1.5px solid #6de0c0; }
+    .pill-auth   { background:var(--cyan-pale);color:var(--navy);border:1.5px solid var(--cyan); }
+    .pill-admin  { background:#fff6d6;color:#7a5c00;border:1.5px solid var(--gold); }
 
     /* ── TECH CHIPS ── */
-    .tech-grid { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: .6rem; }
+    .tech-grid { display:flex;flex-wrap:wrap;gap:.6rem;margin-top:.6rem; }
     .tech-chip {
-      display: flex; align-items: center; gap: .4rem;
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: .4rem .9rem;
-      font-size: .82rem;
-      color: var(--text-dim);
-      font-weight: 600;
-      transition: border-color .2s, transform .2s;
+      display:flex;align-items:center;gap:.4rem;
+      background:var(--cyan-pale);border:2px solid var(--cyan-light);border-radius:10px;
+      padding:.38rem .9rem;font-size:.82rem;color:var(--navy-dark);font-weight:800;
+      transition:border-color .2s,transform .2s;
     }
-    .tech-chip:hover { border-color: var(--accent2); transform: translateY(-1px); }
-    .tech-chip .dot {
-      width: 7px; height: 7px;
-      border-radius: 50%;
-      background: var(--accent);
-      box-shadow: 0 0 6px var(--accent);
-    }
-    .tech-chip .dot.green { background: var(--accent3); box-shadow: 0 0 6px var(--accent3); }
-    .tech-chip .dot.purple { background: var(--accent2); box-shadow: 0 0 6px var(--accent2); }
-
-    /* ── CODE BLOCK ── */
-    pre {
-      background: var(--code-bg);
-      border: 1px solid var(--code-border);
-      border-radius: 12px;
-      padding: 1.3rem 1.5rem;
-      overflow-x: auto;
-      margin: .8rem 0;
-      position: relative;
-    }
-    pre::before {
-      content: attr(data-label);
-      position: absolute;
-      top: .7rem; right: 1rem;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: .65rem;
-      color: var(--text-muted);
-      letter-spacing: .06em;
-      text-transform: uppercase;
-    }
-    pre code {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: .82rem;
-      color: var(--code-text);
-      background: none;
-      padding: 0;
-      border: none;
-      line-height: 1.8;
-    }
-    .kw  { color: var(--accent2); }
-    .str { color: #f0a070; }
-    .cmt { color: var(--text-muted); font-style: italic; }
-    .fn  { color: var(--accent); }
-    .num { color: var(--accent3); }
-
-    /* ── WARN BOX ── */
-    .warn {
-      background: var(--warn-bg);
-      border: 1px solid var(--warn-border);
-      border-left: 4px solid var(--warn-border);
-      border-radius: 10px;
-      padding: 1rem 1.3rem;
-      color: var(--warn-text);
-      font-size: .88rem;
-    }
-    .warn strong { display: block; margin-bottom: .5rem; font-size: .92rem; }
-
-    /* ── STEPS ── */
-    .steps { display: flex; flex-direction: column; gap: .85rem; }
-    .step {
-      display: flex; gap: 1rem; align-items: flex-start;
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1rem 1.2rem;
-      transition: border-color .2s, box-shadow .2s;
-    }
-    .step:hover { border-color: var(--border2); box-shadow: var(--shadow); }
-    .step-num {
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      color: #fff;
-      border-radius: 50%;
-      width: 2rem; height: 2rem;
-      display: flex; align-items: center; justify-content: center;
-      font-size: .75rem;
-      font-weight: 700;
-      font-family: 'JetBrains Mono', monospace;
-      flex-shrink: 0;
-      margin-top: .05rem;
-      box-shadow: 0 0 12px var(--glow);
-    }
-    .step-content { font-size: .9rem; color: var(--text-dim); flex: 1; }
-    .step-content strong { display: block; color: var(--text); margin-bottom: .25rem; font-size: .95rem; }
-
-    /* ── TEAM CARDS ── */
-    .team { display: flex; gap: 1rem; flex-wrap: wrap; }
-    .team-card {
-      flex: 1; min-width: 240px;
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 1.3rem 1.5rem;
-      box-shadow: var(--shadow);
-      transition: box-shadow .25s, transform .25s;
-      display: flex; flex-direction: column; gap: .3rem;
-    }
-    .team-card:hover { box-shadow: var(--card-hover); transform: translateY(-2px); }
-    .team-avatar {
-      width: 40px; height: 40px;
-      border-radius: 10px;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.2rem;
-      margin-bottom: .6rem;
-    }
-    .team-name { font-weight: 700; font-size: .97rem; color: var(--text); }
-    .team-mat  { font-family: 'JetBrains Mono', monospace; color: var(--text-muted); font-size: .75rem; margin-top: .1rem; }
-    .team-school { font-size: .78rem; color: var(--text-muted); margin-top: .4rem; }
-
-    /* ── ROADMAP ── */
-    .roadmap { display: flex; flex-direction: column; gap: .6rem; }
-    .roadmap-item {
-      display: flex; align-items: center; gap: .8rem;
-      padding: .65rem 1rem;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-      background: var(--bg2);
-      font-size: .88rem;
-      color: var(--text-dim);
-      transition: border-color .15s;
-    }
-    .roadmap-item:hover { border-color: var(--border2); }
-    .roadmap-item .ri { font-size: .9rem; }
-    .roadmap-item .status {
-      margin-left: auto;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: .65rem;
-      font-weight: 700;
-      padding: .15em .6em;
-      border-radius: 4px;
-      letter-spacing: .04em;
-    }
-    .s-future { background: rgba(129,140,248,.1); color: var(--accent2); border: 1px solid rgba(129,140,248,.3); }
-
-    /* ── BTN ── */
-    .btn {
-      display: inline-flex; align-items: center; gap: .5rem;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      color: #fff;
-      border-radius: 10px;
-      padding: .65rem 1.4rem;
-      font-weight: 700;
-      font-size: .88rem;
-      text-decoration: none;
-      transition: opacity .2s, transform .2s, box-shadow .2s;
-      margin-top: .8rem;
-      box-shadow: 0 4px 20px var(--glow);
-      letter-spacing: .02em;
-    }
-    .btn:hover { opacity: .88; transform: translateY(-2px); box-shadow: 0 8px 30px var(--glow); text-decoration: none; }
-    .btn-outline {
-      background: transparent;
-      border: 1px solid var(--border2);
-      color: var(--text-dim);
-      box-shadow: none;
-    }
-    .btn-outline:hover { border-color: var(--accent); color: var(--accent); box-shadow: 0 0 12px var(--glow); }
-
-    /* ── FOOTER ── */
-    footer {
-      text-align: center;
-      padding: 2.5rem 0 1.5rem;
-      border-top: 1px solid var(--border);
-      color: var(--text-muted);
-      font-size: .8rem;
-    }
-    footer a { color: var(--accent); }
+    .tech-chip:hover { border-color:var(--cyan);transform:translateY(-1px); }
+    .dot { width:8px;height:8px;border-radius:50%;flex-shrink:0; }
+    .dot-cyan { background:var(--cyan); }
+    .dot-navy { background:var(--navy); }
+    .dot-gold { background:var(--gold); }
 
     /* ── STRUCT TREE ── */
     .struct-tree {
-      background: var(--code-bg);
-      border: 1px solid var(--code-border);
-      border-radius: 12px;
-      padding: 1.2rem 1.5rem;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: .8rem;
-      color: var(--code-text);
-      line-height: 2;
-      overflow-x: auto;
+      background:var(--navy-dark);border-radius:16px;padding:1.4rem 1.6rem;
+      font-family:'Courier New',monospace;font-size:.8rem;color:var(--cyan-light);
+      line-height:2;overflow-x:auto;
     }
-    .struct-tree .dir { color: var(--accent); font-weight: 700; }
-    .struct-tree .comment { color: var(--text-muted); font-style: italic; }
+    .struct-tree .dir  { color:var(--gold);font-weight:700; }
+    .struct-tree .cmt  { color:rgba(255,255,255,0.32);font-style:italic; }
+    .struct-tree .file { color:var(--white); }
 
-    /* ── ANIMATIONS ── */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to   { opacity: 1; transform: translateY(0); }
+    /* ── STEPS ── */
+    .steps { display:flex;flex-direction:column;gap:.9rem; }
+    .step {
+      display:flex;gap:1rem;align-items:flex-start;
+      background:var(--cyan-pale);border:2px solid var(--cyan-light);border-radius:16px;
+      padding:1.1rem 1.3rem;transition:border-color .2s,box-shadow .2s;
     }
-    .container > * {
-      animation: fadeUp .5s ease both;
+    .step:hover { border-color:var(--cyan);box-shadow:0 4px 16px rgba(0,150,170,.12); }
+    .step-num {
+      background:var(--navy);color:var(--white);border-radius:50%;
+      width:2.2rem;height:2.2rem;display:flex;align-items:center;justify-content:center;
+      font-size:.8rem;font-weight:900;flex-shrink:0;margin-top:.05rem;
     }
-    section:nth-child(1) { animation-delay: .05s; }
-    section:nth-child(2) { animation-delay: .1s; }
-    section:nth-child(3) { animation-delay: .15s; }
-    section:nth-child(4) { animation-delay: .2s; }
-    section:nth-child(5) { animation-delay: .25s; }
+    .step-content { font-size:.9rem;color:var(--text-mid);flex:1;font-weight:600; }
+    .step-content strong { display:block;color:var(--navy-dark);margin-bottom:.3rem;font-size:.97rem; }
 
-    @media (max-width: 600px) {
-      .team { flex-direction: column; }
-      .theme-toggle .label { display: none; }
-      .logo-title { font-size: 2.2rem; }
+    /* ── CODE ── */
+    pre {
+      background:var(--navy-dark);border-radius:12px;padding:1.1rem 1.3rem;
+      overflow-x:auto;margin:.7rem 0 0;
+    }
+    pre code { font-family:'Courier New',monospace;font-size:.8rem;color:var(--cyan-light);line-height:1.9; }
+    code {
+      font-family:'Courier New',monospace;font-size:.82em;
+      background:var(--cyan-pale);color:var(--navy-dark);
+      padding:.15em .45em;border-radius:6px;border:1px solid var(--cyan-light);font-weight:700;
+    }
+    pre code { background:none;border:none;padding:0; }
+
+    /* ── TABLE ── */
+    .table-wrap {
+      overflow-x:auto;border-radius:16px;
+      border:2px solid var(--cyan-light);box-shadow:0 2px 12px rgba(0,120,140,.08);
+    }
+    table { width:100%;border-collapse:collapse;font-size:.88rem; }
+    thead tr { background:var(--cyan-pale); }
+    th {
+      padding:.85rem 1.1rem;text-align:left;font-weight:900;font-size:.72rem;
+      letter-spacing:.08em;text-transform:uppercase;color:var(--navy-dark);
+      border-bottom:2px solid var(--cyan-light);
+    }
+    td { padding:.75rem 1.1rem;border-bottom:1px solid var(--cyan-pale);color:var(--text-mid);font-weight:600; }
+    tr:last-child td { border-bottom:none; }
+    tbody tr:nth-child(even) { background:rgba(0,201,204,0.04); }
+    tbody tr { transition:background .15s; }
+    tbody tr:hover { background:var(--cyan-pale); }
+    .method {
+      font-family:monospace;font-size:.75rem;font-weight:900;
+      padding:.18em .55em;border-radius:6px;letter-spacing:.03em;
+    }
+    .method-get    { background:#e0faf4;color:#0a7a62;border:1.5px solid #6de0c0; }
+    .method-post   { background:var(--cyan-pale);color:var(--navy);border:1.5px solid var(--cyan); }
+    .method-put    { background:#fff6d6;color:#7a5c00;border:1.5px solid var(--gold); }
+    .method-delete { background:#fde8e8;color:#9a2020;border:1.5px solid #f0a0a0; }
+
+    /* ── ROADMAP ── */
+    .roadmap { display:flex;flex-direction:column;gap:.55rem; }
+    .roadmap-item {
+      display:flex;align-items:center;gap:.8rem;
+      padding:.7rem 1rem;border-radius:12px;
+      border:2px solid var(--cyan-light);background:var(--cyan-pale);
+      font-size:.9rem;color:var(--text-mid);font-weight:700;
+      transition:border-color .15s,transform .15s;
+    }
+    .roadmap-item:hover { border-color:var(--cyan);transform:translateX(4px); }
+    .ri-pill {
+      margin-left:auto;background:var(--navy);color:var(--white);
+      font-size:.63rem;font-weight:900;padding:.2rem .65rem;
+      border-radius:999px;letter-spacing:.04em;flex-shrink:0;
+    }
+
+    /* ── BUTTONS ── */
+    .btn {
+      display:inline-flex;align-items:center;gap:.5rem;
+      background:var(--navy);color:var(--white);border-radius:999px;
+      padding:.7rem 1.6rem;font-weight:900;font-size:.9rem;
+      text-decoration:none;transition:background .2s,transform .2s,box-shadow .2s;
+      margin-top:.9rem;box-shadow:0 4px 16px rgba(45,74,122,.3);letter-spacing:.02em;
+    }
+    .btn:hover { background:var(--navy-dark);transform:translateY(-2px);box-shadow:0 8px 24px rgba(45,74,122,.4);text-decoration:none;color:var(--white); }
+    .btn-outline { background:transparent;border:2px solid var(--navy);color:var(--navy);box-shadow:none; }
+    .btn-outline:hover { background:var(--navy);color:var(--white); }
+
+    /* ── FOOTER ── */
+    footer {
+      background:var(--navy-dark);color:rgba(255,255,255,.72);
+      text-align:center;padding:2rem 1rem;
+      font-size:.82rem;font-weight:700;border-radius:20px 20px 0 0;
+    }
+    footer a { color:var(--cyan-light); }
+    .foot-logo { font-family:'Caveat',cursive;font-size:1.7rem;color:var(--white);display:block;margin-bottom:.5rem; }
+
+    @media(max-width:600px){
+      .topbar-links .topbar-btn:not(.filled){display:none;}
+      .panel{padding:1.4rem 1.1rem;}
+      .logo-big{font-size:2.5rem;}
     }
   </style>
 </head>
 <body>
+
+<div class="blob blob-tl"></div>
+<div class="blob blob-tr"></div>
+<div class="blob blob-bl"></div>
+<div class="blob blob-br"></div>
+
 <div class="wrapper">
 
-  <!-- THEME TOGGLE -->
-  <button class="theme-toggle" onclick="toggleTheme()" aria-label="Alternar tema">
-    <span id="toggle-icon">☀️</span>
-    <span class="label" id="toggle-label">Tema claro</span>
-  </button>
+  <nav class="topbar">
+    <div class="topbar-logo">🌟 LuminaSaber</div>
+    <div class="topbar-links">
+      <a href="https://github.com/walescaamaro/LuminaSaber" target="_blank" class="topbar-btn">GitHub ↗</a>
+      <a href="https://github.com/walescaamaro/DataBase-LuminaSaber" target="_blank" class="topbar-btn filled">Banco de Dados ↗</a>
+    </div>
+  </nav>
 
   <div class="container">
 
-    <!-- HEADER -->
     <header>
-      <div class="header-glow"></div>
-      <div class="logo-wrap">
-        <span class="logo-icon">🌟</span>
-        <span class="logo-title">LuminaSaber</span>
+      <div class="logo-big">LuminaSaber <span class="bulb">💡</span></div>
+      <div class="tagline">A Expansão do Conhecimento</div>
+      <div class="intro-card">
+        O <strong>LuminaSaber</strong> é uma plataforma web <strong>gamificada e gratuita</strong>, criada para auxiliar a aprendizagem de estudantes da educação básica — do jardim de infância ao 9º ano. Exercícios adaptativos, relatórios de desempenho e anotações digitais, tudo em um só lugar.
       </div>
-      <p class="header-tagline">
-        <strong>Plataforma web gamificada e gratuita</strong> de apoio ao aprendizado da educação básica — do jardim de infância ao 9º ano
-      </p>
       <div class="badges">
         <span class="badge">⚡ Node.js + Express</span>
         <span class="badge">🗄️ SQLite</span>
         <span class="badge">🎓 IFPB</span>
         <span class="badge">🆓 Gratuito</span>
         <span class="badge">📡 REST API</span>
+        <span class="badge">🏫 Jardim → 9º Ano</span>
       </div>
     </header>
 
-    <div class="divider"><div class="divider-dot"></div></div>
-
-    <!-- SOBRE -->
-    <section>
+    <!-- § 01 SOBRE -->
+    <div class="panel">
       <div class="section-header">
-        <span class="icon">📖</span>
+        <div class="section-icon">📖</div>
         <h2>Sobre o Projeto</h2>
-        <span class="line-num">§ 01</span>
+        <span class="section-num">§ 01</span>
       </div>
-      <p>
-        O <strong>LuminaSaber</strong> é uma plataforma web voltada para estudantes da educação básica, oferecendo exercícios de múltipla escolha adaptados ao ritmo de cada aluno, de forma <strong>gratuita, inclusiva e organizada</strong>.
-      </p>
-      <p style="margin-top:.9rem">
-        A proposta é incentivar a autonomia nos estudos, com exercícios por disciplina, relatórios de desempenho, anotações digitais e organização de conteúdo por pastas — tudo em uma interface acessível e motivadora.
-      </p>
-      <div class="tags" style="margin-top:1rem">
-        <span class="tag">📝 Múltipla Escolha</span>
-        <span class="tag">📊 Relatórios</span>
-        <span class="tag">🗒️ Anotações</span>
-        <span class="tag">🔍 Busca de conteúdo</span>
-        <span class="tag">📁 Pastas</span>
+      <p>O <strong>LuminaSaber</strong> oferece exercícios de múltipla escolha que se adaptam ao ritmo e às dificuldades de cada aluno, de forma <strong>gratuita, inclusiva e organizada</strong>. A proposta é incentivar a autonomia nos estudos com uma interface acolhedora e motivadora.</p>
+      <p>A plataforma é voltada a estudantes da <strong>educação básica</strong> — do jardim de infância ao 9º ano — e conta com módulos de exercícios, anotações digitais, histórico e relatórios de desempenho.</p>
+      <div class="tags">
+        <span class="tag">📝 Múltipla Escolha Adaptativa</span>
+        <span class="tag">📊 Relatórios de Desempenho</span>
+        <span class="tag">🗒️ Anotações Digitais</span>
+        <span class="tag">🔍 Busca de Conteúdo</span>
+        <span class="tag">📁 Organização por Pastas</span>
+        <span class="tag">⏱️ Temporizador de Estudo</span>
       </div>
-    </section>
+    </div>
 
-    <!-- EQUIPE -->
-    <section>
+    <!-- § 02 EQUIPE -->
+    <div class="panel">
       <div class="section-header">
-        <span class="icon">👩‍💻</span>
+        <div class="section-icon">👩‍💻</div>
         <h2>Equipe</h2>
-        <span class="line-num">§ 02</span>
+        <span class="section-num">§ 02</span>
       </div>
       <div class="team">
         <div class="team-card">
           <div class="team-avatar">👩‍🎓</div>
           <div class="team-name">Walesca Amaro Rodrigues</div>
           <div class="team-mat">mat. 20241780019</div>
+          <span class="team-course">3º ano — Técnico em Informática Integrado ao Ensino Médio</span>
           <div class="team-school">Instituto Federal da Paraíba — IFPB</div>
         </div>
         <div class="team-card">
           <div class="team-avatar">👩‍🎓</div>
           <div class="team-name">Rayssa Priscila Silva Nascimento</div>
           <div class="team-mat">mat. 20241780013</div>
+          <span class="team-course">3º ano — Técnico em Informática Integrado ao Ensino Médio</span>
           <div class="team-school">Instituto Federal da Paraíba — IFPB</div>
         </div>
       </div>
-    </section>
+    </div>
 
-    <!-- MÓDULOS -->
-    <section>
+    <!-- § 03 MÓDULOS -->
+    <div class="panel">
       <div class="section-header">
-        <span class="icon">🗂️</span>
+        <div class="section-icon">🗂️</div>
         <h2>Módulos da Aplicação</h2>
-        <span class="line-num">§ 03</span>
+        <span class="section-num">§ 03</span>
       </div>
       <div class="cards-grid">
         <div class="card">
           <span class="card-icon">🏠</span>
           <div class="card-title">Cadastro / Home</div>
-          <div class="card-desc">Apresentação do site, cadastro de usuário e login.</div>
-          <span class="card-badge badge-public">Público</span>
+          <div class="card-desc">Apresentação da plataforma, cadastro de usuário e login.</div>
+          <span class="card-pill pill-public">Público</span>
         </div>
         <div class="card">
           <span class="card-icon">📚</span>
           <div class="card-title">Início</div>
-          <div class="card-desc">Seleção de disciplinas e definição do tempo e meta de estudo.</div>
-          <span class="card-badge badge-auth">Usuário logado</span>
+          <div class="card-desc">Seleção de disciplinas, definição de tempo e meta de estudo.</div>
+          <span class="card-pill pill-auth">Usuário logado</span>
         </div>
         <div class="card">
           <span class="card-icon">✏️</span>
-          <div class="card-title">Exercício</div>
-          <div class="card-desc">Questões de múltipla escolha, barra de pesquisa, relatório e anotações.</div>
-          <span class="card-badge badge-auth">Usuário logado</span>
+          <div class="card-title">Exercícios</div>
+          <div class="card-desc">Questões adaptativas de múltipla escolha, pesquisa, relatório e anotações.</div>
+          <span class="card-pill pill-auth">Usuário logado</span>
         </div>
         <div class="card">
           <span class="card-icon">🗒️</span>
           <div class="card-title">Anotações</div>
-          <div class="card-desc">Gerenciamento e organização de anotações por pastas.</div>
-          <span class="card-badge badge-auth">Usuário logado</span>
+          <div class="card-desc">Criação, edição e organização por pastas com exportação em PDF.</div>
+          <span class="card-pill pill-auth">Usuário logado</span>
         </div>
         <div class="card">
           <span class="card-icon">📅</span>
           <div class="card-title">Histórico</div>
-          <div class="card-desc">Visualização e revisão de questões respondidas anteriormente.</div>
-          <span class="card-badge badge-auth">Usuário logado</span>
+          <div class="card-desc">Visualização e revisão de questões respondidas, com opção de refazer.</div>
+          <span class="card-pill pill-auth">Usuário logado</span>
         </div>
         <div class="card">
           <span class="card-icon">⚙️</span>
           <div class="card-title">Configuração</div>
-          <div class="card-desc">Gerenciamento geral da plataforma.</div>
-          <span class="card-badge badge-admin">Administrador</span>
+          <div class="card-desc">Parâmetros gerais do sistema, backup e modo manutenção.</div>
+          <span class="card-pill pill-admin">Administrador</span>
+        </div>
+        <div class="card">
+          <span class="card-icon">👥</span>
+          <div class="card-title">Gerenc. de Usuários</div>
+          <div class="card-desc">Visualização de perfis, histórico por aluno e exclusão de contas.</div>
+          <span class="card-pill pill-admin">Administrador</span>
         </div>
         <div class="card">
           <span class="card-icon">📋</span>
           <div class="card-title">Cadastro de Exercícios</div>
-          <div class="card-desc">Inserção, edição e remoção de questões.</div>
-          <span class="card-badge badge-admin">Administrador</span>
+          <div class="card-desc">Inserção, edição e remoção de questões por disciplina e dificuldade.</div>
+          <span class="card-pill pill-admin">Administrador</span>
         </div>
       </div>
-    </section>
+    </div>
 
-    <!-- TECNOLOGIAS -->
-    <section>
+    <!-- § 04 TECNOLOGIAS -->
+    <div class="panel">
       <div class="section-header">
-        <span class="icon">🚀</span>
+        <div class="section-icon">🚀</div>
         <h2>Tecnologias Utilizadas</h2>
-        <span class="line-num">§ 04</span>
+        <span class="section-num">§ 04</span>
       </div>
       <div class="tech-grid">
-        <div class="tech-chip"><span class="dot green"></span>Node.js</div>
-        <div class="tech-chip"><span class="dot green"></span>Express</div>
-        <div class="tech-chip"><span class="dot green"></span>Morgan</div>
-        <div class="tech-chip"><span class="dot"></span>HTML</div>
-        <div class="tech-chip"><span class="dot"></span>CSS</div>
-        <div class="tech-chip"><span class="dot"></span>JavaScript (ES Modules)</div>
-        <div class="tech-chip"><span class="dot purple"></span>SQLite</div>
-        <div class="tech-chip"><span class="dot purple"></span>REST Client (VSCode)</div>
-        <div class="tech-chip"><span class="dot purple"></span>Git</div>
+        <div class="tech-chip"><span class="dot dot-cyan"></span>Node.js</div>
+        <div class="tech-chip"><span class="dot dot-cyan"></span>Express</div>
+        <div class="tech-chip"><span class="dot dot-cyan"></span>Morgan</div>
+        <div class="tech-chip"><span class="dot dot-navy"></span>HTML5</div>
+        <div class="tech-chip"><span class="dot dot-navy"></span>CSS3</div>
+        <div class="tech-chip"><span class="dot dot-navy"></span>JavaScript (ES Modules)</div>
+        <div class="tech-chip"><span class="dot dot-gold"></span>SQLite</div>
+        <div class="tech-chip"><span class="dot dot-gold"></span>REST Client (VSCode)</div>
+        <div class="tech-chip"><span class="dot dot-gold"></span>Git / GitHub</div>
       </div>
-    </section>
+    </div>
 
-    <!-- ESTRUTURA -->
-    <section>
+    <!-- § 05 ESTRUTURA -->
+    <div class="panel">
       <div class="section-header">
-        <span class="icon">📁</span>
+        <div class="section-icon">📁</div>
         <h2>Estrutura do Projeto</h2>
-        <span class="line-num">§ 05</span>
+        <span class="section-num">§ 05</span>
       </div>
       <div class="struct-tree">
 <span class="dir">LuminaSaber/</span>
-├── <span class="dir">public/</span>                         <span class="comment"># Arquivos front-end</span>
-│   ├── home.html                   <span class="comment"># Tela inicial</span>
-│   ├── cadastro.html               <span class="comment"># Página de cadastro</span>
-│   ├── cadastro_exercicios.html
-│   ├── seleção_disciplinas.html
-│   ├── <span class="dir">tela_exercicios/</span>            <span class="comment"># Módulo de exercícios</span>
-│   │   ├── exercicios.html
+├── <span class="dir">public/</span>                         <span class="cmt"># Front-end</span>
+│   ├── <span class="file">home.html</span>                   <span class="cmt"># Tela inicial</span>
+│   ├── <span class="file">cadastro.html</span>               <span class="cmt"># Cadastro de usuário</span>
+│   ├── <span class="file">cadastro_exercicios.html</span>
+│   ├── <span class="file">seleção_disciplinas.html</span>
+│   ├── <span class="dir">tela_exercicios/</span>            <span class="cmt"># Módulo de exercícios</span>
+│   │   ├── <span class="file">exercicios.html</span>
 │   │   ├── <span class="dir">css/</span>
-│   │   │   └── style.css
+│   │   │   └── <span class="file">style.css</span>
 │   │   └── <span class="dir">js/</span>
-│   │       ├── main.js
-│   │       ├── carregarQuestoes.js
-│   │       └── filtros.js
-│   └── <span class="dir">assets/</span>                     <span class="comment"># Imagens (onda.png, logo.png…)</span>
-├── <span class="dir">backend/</span>                        <span class="comment"># Servidor Node.js</span>
-│   ├── server.js
-│   ├── routes.js
-│   ├── rotas.http                  <span class="comment"># Testes REST Client</span>
+│   │       ├── <span class="file">main.js</span>
+│   │       ├── <span class="file">carregarQuestoes.js</span>
+│   │       └── <span class="file">filtros.js</span>
+│   └── <span class="dir">assets/</span>                     <span class="cmt"># Imagens (onda.png, logo.png…)</span>
+├── <span class="dir">backend/</span>                        <span class="cmt"># Servidor Node.js</span>
+│   ├── <span class="file">server.js</span>
+│   ├── <span class="file">routes.js</span>
+│   ├── <span class="file">rotas.http</span>                  <span class="cmt"># Testes REST Client</span>
 │   ├── <span class="dir">data/</span>
-│   │   └── questoes.json           <span class="comment"># Dados em memória</span>
-│   └── package.json
-└── README.md
-      </div>
-    </section>
+│   │   └── <span class="file">questoes.json</span>           <span class="cmt"># Dados em memória</span>
+│   └── <span class="file">package.json</span>
+└── <span class="file">README.md</span></div>
+    </div>
 
-    <!-- COMO RODAR -->
-    <section>
+    <!-- § 06 COMO RODAR -->
+    <div class="panel">
       <div class="section-header">
-        <span class="icon">▶️</span>
+        <div class="section-icon">▶️</div>
         <h2>Como Rodar o Projeto</h2>
-        <span class="line-num">§ 06</span>
+        <span class="section-num">§ 06</span>
       </div>
-      <p style="margin-bottom:1rem">Pré-requisito: <a href="https://nodejs.org/" target="_blank">Node.js</a> versão 18 ou superior instalado.</p>
+      <p style="margin-bottom:1.1rem">Pré-requisito: <a href="https://nodejs.org/" target="_blank">Node.js</a> versão 18 ou superior instalado.</p>
       <div class="steps">
         <div class="step">
           <div class="step-num">1</div>
           <div class="step-content">
             <strong>Clone o repositório</strong>
-            <pre data-label="bash"><code>git clone https://github.com/walescaamaro/LuminaSaber.git</code></pre>
+            <pre><code>git clone https://github.com/walescaamaro/LuminaSaber.git</code></pre>
           </div>
         </div>
         <div class="step">
           <div class="step-num">2</div>
           <div class="step-content">
             <strong>Entre na pasta do backend e instale as dependências</strong>
-            <pre data-label="bash"><code>cd LuminaSaber/backend
+            <pre><code>cd LuminaSaber/backend
 npm install</code></pre>
           </div>
         </div>
@@ -782,7 +547,7 @@ npm install</code></pre>
           <div class="step-num">3</div>
           <div class="step-content">
             <strong>Inicie o servidor</strong>
-            <pre data-label="bash"><code>node server.js</code></pre>
+            <pre><code>node server.js</code></pre>
           </div>
         </div>
         <div class="step">
@@ -793,75 +558,44 @@ npm install</code></pre>
           </div>
         </div>
       </div>
-    </section>
+    </div>
 
-    <!-- API ROUTES -->
-    <section>
+    <!-- § 07 API -->
+    <div class="panel">
       <div class="section-header">
-        <span class="icon">🔌</span>
+        <div class="section-icon">🔌</div>
         <h2>Rotas da API</h2>
-        <span class="line-num">§ 07</span>
+        <span class="section-num">§ 07</span>
       </div>
       <p style="margin-bottom:1rem">Base URL: <code>http://localhost:3000</code></p>
       <div class="table-wrap">
         <table>
-          <thead>
-            <tr><th>Método</th><th>Rota</th><th>Descrição</th><th>Status</th></tr>
-          </thead>
+          <thead><tr><th>Método</th><th>Rota</th><th>Descrição</th><th>Status</th></tr></thead>
           <tbody>
-            <tr>
-              <td><span class="method method-get">GET</span></td>
-              <td><code>/api/questoes</code></td>
-              <td>Lista todas as questões</td>
-              <td><code>200</code></td>
-            </tr>
-            <tr>
-              <td><span class="method method-get">GET</span></td>
-              <td><code>/api/questoes/:id</code></td>
-              <td>Busca questão por ID</td>
-              <td><code>200 / 404</code></td>
-            </tr>
-            <tr>
-              <td><span class="method method-post">POST</span></td>
-              <td><code>/api/questoes</code></td>
-              <td>Cria nova questão</td>
-              <td><code>201 / 400</code></td>
-            </tr>
-            <tr>
-              <td><span class="method method-put">PUT</span></td>
-              <td><code>/api/questoes/:id</code></td>
-              <td>Atualiza questão existente</td>
-              <td><code>200 / 404</code></td>
-            </tr>
-            <tr>
-              <td><span class="method method-delete">DELETE</span></td>
-              <td><code>/api/questoes/:id</code></td>
-              <td>Remove uma questão</td>
-              <td><code>200 / 404</code></td>
-            </tr>
+            <tr><td><span class="method method-get">GET</span></td><td><code>/api/questoes</code></td><td>Lista todas as questões</td><td><code>200</code></td></tr>
+            <tr><td><span class="method method-get">GET</span></td><td><code>/api/questoes/:id</code></td><td>Busca questão por ID</td><td><code>200 / 404</code></td></tr>
+            <tr><td><span class="method method-post">POST</span></td><td><code>/api/questoes</code></td><td>Cria nova questão</td><td><code>201 / 400</code></td></tr>
+            <tr><td><span class="method method-put">PUT</span></td><td><code>/api/questoes/:id</code></td><td>Atualiza questão existente</td><td><code>200 / 404</code></td></tr>
+            <tr><td><span class="method method-delete">DELETE</span></td><td><code>/api/questoes/:id</code></td><td>Remove uma questão</td><td><code>200 / 404</code></td></tr>
           </tbody>
         </table>
       </div>
-
-      <p style="margin-top:1.2rem; margin-bottom:.6rem">Exemplo de requisição POST:</p>
-      <pre data-label="JSON"><code><span class="kw">POST</span> <span class="str">/api/questoes</span>
-Content-Type: application/json
-
-{
-  <span class="str">"nivel"</span>: <span class="str">"Fácil"</span>,
-  <span class="str">"materia"</span>: <span class="str">"Matemática"</span>,
-  <span class="str">"enunciado"</span>: <span class="str">"Quanto é 2 + 2?"</span>,
-  <span class="str">"alternativas"</span>: [<span class="str">"1"</span>, <span class="str">"2"</span>, <span class="str">"3"</span>, <span class="str">"4"</span>],
-  <span class="str">"correta"</span>: <span class="num">3</span>
+      <p style="margin-top:1.2rem;margin-bottom:.6rem">Exemplo de corpo para POST:</p>
+      <pre><code>{
+  "nivel": "Fácil",
+  "materia": "Matemática",
+  "enunciado": "Quanto é 2 + 2?",
+  "alternativas": ["1", "2", "3", "4"],
+  "correta": 3
 }</code></pre>
-    </section>
+    </div>
 
-    <!-- DISCIPLINAS -->
-    <section>
+    <!-- § 08 DISCIPLINAS -->
+    <div class="panel">
       <div class="section-header">
-        <span class="icon">📚</span>
+        <div class="section-icon">📚</div>
         <h2>Disciplinas Disponíveis</h2>
-        <span class="line-num">§ 08</span>
+        <span class="section-num">§ 08</span>
       </div>
       <div class="tags">
         <span class="tag">📐 Matemática</span>
@@ -872,107 +606,77 @@ Content-Type: application/json
         <span class="tag">🎨 Artes</span>
         <span class="tag">🇺🇸 Inglês</span>
       </div>
-    </section>
+    </div>
 
-    <!-- BANCO DE DADOS -->
-    <section>
+    <!-- § 09 BANCO DE DADOS -->
+    <div class="panel">
       <div class="section-header">
-        <span class="icon">🗄️</span>
+        <div class="section-icon">🗄️</div>
         <h2>Banco de Dados</h2>
-        <span class="line-num">§ 09</span>
+        <span class="section-num">§ 09</span>
       </div>
-      <p>
-        O projeto possui um modelo relacional completo desenvolvido em <strong>SQLite</strong>, com 12 tabelas. Os scripts estão organizados em um repositório dedicado.
-      </p>
-      <div class="tags" style="margin-top:.8rem">
-        <span class="tag">USUARIO</span>
-        <span class="tag">DISCIPLINA</span>
-        <span class="tag">CONTEUDO</span>
-        <span class="tag">QUESTAO</span>
-        <span class="tag">HISTORICO</span>
-        <span class="tag">PASTA</span>
-        <span class="tag">ANOTACAO</span>
-        <span class="tag">SUPORTE</span>
-        <span class="tag">RELATORIO</span>
-        <span class="tag">ESTUDA</span>
-        <span class="tag">POSSUI</span>
-        <span class="tag">CONTEM</span>
+      <p>Modelo relacional completo em <strong>SQLite</strong> com <strong>12 tabelas</strong>. Scripts DDL e dados de exemplo em repositório dedicado.</p>
+      <div class="tags" style="margin-top:.9rem">
+        <span class="tag">USUARIO</span><span class="tag">DISCIPLINA</span><span class="tag">CONTEUDO</span>
+        <span class="tag">QUESTAO</span><span class="tag">HISTORICO</span><span class="tag">PASTA</span>
+        <span class="tag">ANOTACAO</span><span class="tag">SUPORTE</span><span class="tag">RELATORIO</span>
+        <span class="tag">ESTUDA</span><span class="tag">POSSUI</span><span class="tag">CONTEM</span>
       </div>
-      <a class="btn btn-outline" href="https://github.com/walescaamaro/DataBase-LuminaSaber" target="_blank" style="margin-top:1rem">
-        🗄️ Repositório do Banco de Dados ↗
-      </a>
-    </section>
+      <a class="btn btn-outline" href="https://github.com/walescaamaro/DataBase-LuminaSaber" target="_blank" style="margin-top:1rem">🗄️ Repositório do Banco de Dados ↗</a>
+    </div>
 
-    <!-- PRÓXIMAS VERSÕES -->
-    <section>
+    <!-- § 10 ROADMAP -->
+    <div class="panel">
       <div class="section-header">
-        <span class="icon">🔄</span>
+        <div class="section-icon">🔄</div>
         <h2>Funcionalidades Futuras</h2>
-        <span class="line-num">§ 10</span>
+        <span class="section-num">§ 10</span>
       </div>
       <div class="roadmap">
-        <div class="roadmap-item"><span class="ri">🔐</span> Cadastro e login com autenticação por perfil (aluno e administrador) <span class="status s-future">em breve</span></div>
-        <div class="roadmap-item"><span class="ri">⏱️</span> Temporizador de estudo e definição de meta de questões <span class="status s-future">em breve</span></div>
-        <div class="roadmap-item"><span class="ri">📊</span> Relatório de desempenho ao fim de cada sessão <span class="status s-future">em breve</span></div>
-        <div class="roadmap-item"><span class="ri">💡</span> Exibição de dicas ao errar uma questão <span class="status s-future">em breve</span></div>
-        <div class="roadmap-item"><span class="ri">🗒️</span> Módulo de anotações com criação de pastas, edição, exclusão e exportação em PDF <span class="status s-future">em breve</span></div>
-        <div class="roadmap-item"><span class="ri">📅</span> Módulo de histórico com opção de refazer questões <span class="status s-future">em breve</span></div>
-        <div class="roadmap-item"><span class="ri">👮</span> Painel do administrador e gerenciamento de usuários <span class="status s-future">em breve</span></div>
-        <div class="roadmap-item"><span class="ri">🔗</span> Integração completa com banco de dados SQLite <span class="status s-future">em breve</span></div>
-        <div class="roadmap-item"><span class="ri">🧠</span> Sistema adaptativo baseado na dificuldade do aluno <span class="status s-future">em breve</span></div>
+        <div class="roadmap-item"><span>🔐</span> Autenticação por perfil — aluno e administrador <span class="ri-pill">EM BREVE</span></div>
+        <div class="roadmap-item"><span>⏱️</span> Temporizador de estudo e definição de meta de questões <span class="ri-pill">EM BREVE</span></div>
+        <div class="roadmap-item"><span>📊</span> Relatório de desempenho ao fim de cada sessão <span class="ri-pill">EM BREVE</span></div>
+        <div class="roadmap-item"><span>💡</span> Dicas exibidas ao errar uma questão <span class="ri-pill">EM BREVE</span></div>
+        <div class="roadmap-item"><span>🗒️</span> Anotações com pastas, edição, exclusão e exportação em PDF <span class="ri-pill">EM BREVE</span></div>
+        <div class="roadmap-item"><span>📅</span> Histórico com opção de refazer questões <span class="ri-pill">EM BREVE</span></div>
+        <div class="roadmap-item"><span>👮</span> Painel do administrador e gerenciamento de usuários <span class="ri-pill">EM BREVE</span></div>
+        <div class="roadmap-item"><span>🔗</span> Integração completa com banco de dados SQLite <span class="ri-pill">EM BREVE</span></div>
+        <div class="roadmap-item"><span>🧠</span> Sistema adaptativo baseado na dificuldade do aluno <span class="ri-pill">EM BREVE</span></div>
       </div>
-    </section>
+    </div>
 
-    <!-- REPO -->
-    <section>
+    <!-- § 11 REPOSITÓRIO -->
+    <div class="panel">
       <div class="section-header">
-        <span class="icon">🔗</span>
+        <div class="section-icon">🔗</div>
         <h2>Repositório</h2>
-        <span class="line-num">§ 11</span>
+        <span class="section-num">§ 11</span>
       </div>
-      <p>Código completo da aplicação (back-end e front-end):</p>
-      <a class="btn" href="https://github.com/walescaamaro/LuminaSaber" target="_blank">
-        ↗ github.com/walescaamaro/LuminaSaber
-      </a>
-    </section>
+      <p>Código completo da aplicação — back-end e front-end:</p>
+      <a class="btn" href="https://github.com/walescaamaro/LuminaSaber" target="_blank">↗ github.com/walescaamaro/LuminaSaber</a>
+    </div>
 
-    <!-- LICENÇA -->
-    <section>
+    <!-- § 12 LICENÇA -->
+    <div class="panel">
       <div class="section-header">
-        <span class="icon">📄</span>
+        <div class="section-icon">📄</div>
         <h2>Licença</h2>
-        <span class="line-num">§ 12</span>
+        <span class="section-num">§ 12</span>
       </div>
-      <p>
-        Este projeto foi desenvolvido para fins educacionais no
-        <strong>Instituto Federal de Educação, Ciência e Tecnologia da Paraíba (IFPB)</strong>.
-      </p>
-    </section>
+      <p>Este projeto foi desenvolvido para fins educacionais no <strong>Instituto Federal de Educação, Ciência e Tecnologia da Paraíba (IFPB)</strong>, como parte do curso Técnico em Informática Integrado ao Ensino Médio.</p>
+    </div>
 
     <footer>
-      <p>🌟 LuminaSaber · IFPB ·
+      <span class="foot-logo">💡 LuminaSaber</span>
+      <p>A Expansão do Conhecimento · IFPB · 2024</p>
+      <p style="margin-top:.4rem">
         <a href="https://github.com/walescaamaro/LuminaSaber" target="_blank">GitHub ↗</a>
+        &nbsp;·&nbsp;
+        <a href="https://github.com/walescaamaro/DataBase-LuminaSaber" target="_blank">Banco de Dados ↗</a>
       </p>
     </footer>
 
   </div>
 </div>
-
-<script>
-  const saved = localStorage.getItem('ls-theme');
-  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  setTheme(saved || (prefersDark ? 'dark' : 'light'));
-
-  function setTheme(theme) {
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('ls-theme', theme);
-    document.getElementById('toggle-icon').textContent  = theme === 'dark' ? '☀️' : '🌙';
-    document.getElementById('toggle-label').textContent = theme === 'dark' ? 'Tema claro' : 'Tema escuro';
-  }
-
-  function toggleTheme() {
-    setTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
-  }
-</script>
 </body>
 </html>
