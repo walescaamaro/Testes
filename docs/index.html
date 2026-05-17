@@ -413,29 +413,19 @@
     /* ── TECH ICONS ── */
     .tech-grid { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: .8rem; justify-content: flex-start; }
     .tech-chip {
-      display: flex; flex-direction: column; align-items: center; gap: .4rem;
+      display: flex; flex-direction: column; align-items: center; gap: .5rem;
       background: var(--tech-bg); border: 2px solid var(--tech-border); border-radius: 14px;
-      padding: .8rem 1rem; font-size: .7rem; color: var(--tech-color); font-weight: 800;
-      transition: border-color .2s, transform .2s, background 0.4s;
-      min-width: 70px; text-align: center; cursor: default;
+      padding: .9rem 1.1rem; font-size: .72rem; color: var(--tech-color); font-weight: 800;
+      transition: border-color .2s, transform .2s, background 0.4s, box-shadow .2s;
+      min-width: 80px; text-align: center; cursor: default;
     }
-    .tech-chip:hover { border-color: var(--cyan); transform: translateY(-3px) scale(1.05); }
-    .tech-logo {
-      width: 38px; height: 38px; border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.35rem; font-weight: 900; color: #fff;
-      letter-spacing: -.02em; line-height: 1;
+    .tech-chip:hover { border-color: var(--cyan); transform: translateY(-4px) scale(1.06); box-shadow: var(--card-hover); }
+    .tech-chip img {
+      width: 42px; height: 42px; object-fit: contain;
+      transition: filter 0.3s;
     }
-    /* brand colors */
-    .logo-node   { background: #539e43; }
-    .logo-express{ background: #333; }
-    .logo-morgan { background: #4a90d9; }
-    .logo-html   { background: #e34c26; }
-    .logo-css    { background: #264de4; }
-    .logo-js     { background: #f0db4f; color: #333 !important; }
-    .logo-sqlite { background: #0f80cc; }
-    .logo-rest   { background: #5c2d91; }
-    .logo-git    { background: #f05032; }
+    /* Express icon is black — invert in dark mode for visibility */
+    [data-theme="dark"] .tech-chip img.invert-dark { filter: invert(1); }
 
     /* ── STRUCT TREE ── */
     .struct-tree {
@@ -723,40 +713,44 @@
       </div>
       <div class="tech-grid">
         <div class="tech-chip" title="Node.js">
-          <div class="tech-logo logo-node">N</div>
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original.svg" alt="Node.js" />
           Node.js
         </div>
         <div class="tech-chip" title="Express">
-          <div class="tech-logo logo-express">Ex</div>
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/express/express-original.svg" alt="Express" class="invert-dark" />
           Express
         </div>
-        <div class="tech-chip" title="Morgan">
-          <div class="tech-logo logo-morgan">Mo</div>
+        <div class="tech-chip" title="Morgan (middleware de logging)">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/npm/npm-original-wordmark.svg" alt="Morgan (npm)" />
           Morgan
         </div>
         <div class="tech-chip" title="HTML5">
-          <div class="tech-logo logo-html">H5</div>
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg" alt="HTML5" />
           HTML5
         </div>
         <div class="tech-chip" title="CSS3">
-          <div class="tech-logo logo-css">C3</div>
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg" alt="CSS3" />
           CSS3
         </div>
         <div class="tech-chip" title="JavaScript ES Modules">
-          <div class="tech-logo logo-js">JS</div>
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg" alt="JavaScript" />
           JavaScript
         </div>
         <div class="tech-chip" title="SQLite">
-          <div class="tech-logo logo-sqlite">SQ</div>
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/sqlite/sqlite-original.svg" alt="SQLite" />
           SQLite
         </div>
         <div class="tech-chip" title="REST Client (VSCode)">
-          <div class="tech-logo logo-rest">RC</div>
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vscode/vscode-original.svg" alt="VSCode REST Client" />
           REST Client
         </div>
-        <div class="tech-chip" title="Git / GitHub">
-          <div class="tech-logo logo-git">Git</div>
-          Git / GitHub
+        <div class="tech-chip" title="Git">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-original.svg" alt="Git" />
+          Git
+        </div>
+        <div class="tech-chip" title="GitHub">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/github/github-original.svg" alt="GitHub" class="invert-dark" />
+          GitHub
         </div>
       </div>
     </div>
