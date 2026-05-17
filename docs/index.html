@@ -7,11 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700&family=Caveat:wght@700&display=swap" rel="stylesheet" />
   <style>
-    /* ══════════════════════════════════════════
-       LIGHT THEME (default)
-    ══════════════════════════════════════════ */
-    :root,
-    [data-theme="light"] {
+    :root, [data-theme="light"] {
       --bg-body:      #00C9CC;
       --cyan:         #00C9CC;
       --cyan-dark:    #00A8AB;
@@ -62,23 +58,20 @@
       --card-hover:   0 8px 32px rgba(0,100,120,0.22);
       --badge-bg:     var(--navy);
       --badge-color:  var(--white);
+      --icon-filter:  none;
+      --icon-filter-muted: brightness(0) saturate(100%) invert(30%) sepia(30%) saturate(500%) hue-rotate(180deg);
     }
 
-    /* ══════════════════════════════════════════
-       DARK THEME — cores opostas no círculo cromático
-       Cyan (#00C9CC) → Coral/Vermelho-laranja (#CC4B00)
-       Navy (#2D4A7A) → Âmbar/Dourado (#7A5B2D → iluminado: #FFA840)
-    ══════════════════════════════════════════ */
     [data-theme="dark"] {
       --bg-body:      #0d0d18;
-      --cyan:         #FF6B3D;        /* oposto ao ciano */
+      --cyan:         #FF6B3D;
       --cyan-dark:    #CC4A20;
       --cyan-light:   #FFB08A;
       --cyan-pale:    #1e1428;
-      --navy:         #FFA840;        /* oposto ao azul-marinho → âmbar */
+      --navy:         #FFA840;
       --navy-dark:    #FFD080;
       --white:        #f0e8ff;
-      --gold:         #A0E8FF;        /* oposto ao dourado → azul claro */
+      --gold:         #A0E8FF;
       --gold-dark:    #70C8FF;
       --text-dark:    #f0e8ff;
       --text-mid:     #c8b8e8;
@@ -120,6 +113,8 @@
       --card-hover:   0 8px 32px rgba(255,107,61,0.20);
       --badge-bg:     #2a1a30;
       --badge-color:  var(--cyan-light);
+      --icon-filter:  invert(1) brightness(2);
+      --icon-filter-muted: brightness(0) saturate(100%) invert(80%) sepia(20%) saturate(300%) hue-rotate(20deg);
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -135,7 +130,6 @@
       transition: background 0.4s ease, color 0.4s ease;
     }
 
-    /* ── BLOB SHAPES ── */
     .blob {
       position: fixed;
       background: var(--blob-color);
@@ -164,21 +158,21 @@
     .topbar-logo {
       font-family: 'Caveat', cursive; font-size: 1.5rem;
       color: var(--white); text-shadow: 0 2px 8px rgba(0,0,0,.15);
-      display: flex; align-items: center; gap: .4rem;
+      display: flex; align-items: center; gap: .5rem;
     }
+    .topbar-logo svg { width:22px;height:22px;fill:var(--gold); filter: drop-shadow(0 0 6px #FFD70088); }
     .topbar-links { display: flex; gap: .5rem; align-items: center; }
     .topbar-btn {
       background: transparent; border: 2px solid rgba(255,255,255,0.65); border-radius: 999px;
       color: var(--white); font-family: 'Nunito', sans-serif; font-weight: 800; font-size: .78rem;
       padding: .3rem 1rem; cursor: pointer; transition: background .2s; text-decoration: none;
-      display: inline-flex; align-items: center;
+      display: inline-flex; align-items: center; gap: .35rem;
     }
     .topbar-btn:hover { background: rgba(255,255,255,0.28); }
-    .topbar-btn.filled { background: var(--navy); border-color: var(--navy); color: #0d0d18; }
+    .topbar-btn.filled { background: var(--navy); border-color: var(--navy); color: #fff; }
     [data-theme="light"] .topbar-btn.filled { color: var(--white); }
     .topbar-btn.filled:hover { background: var(--navy-dark); }
 
-    /* ── DARK MODE TOGGLE ── */
     .theme-toggle {
       background: rgba(255,255,255,0.15);
       border: 2px solid rgba(255,255,255,0.5);
@@ -194,8 +188,8 @@
       white-space: nowrap;
     }
     .theme-toggle:hover { background: rgba(255,255,255,0.28); transform: scale(1.05); }
-    .theme-toggle-icon { font-size: 1rem; transition: transform 0.4s ease; }
-    [data-theme="dark"] .theme-toggle-icon { transform: rotate(180deg); }
+    .theme-toggle svg { width:16px;height:16px;fill:var(--white);transition:transform 0.4s ease; }
+    [data-theme="dark"] .theme-toggle svg { transform: rotate(180deg); }
 
     /* ── HEADER ── */
     header { padding: 4rem 0 3rem; text-align: center; position: relative; }
@@ -205,60 +199,31 @@
       color: var(--white);
       text-shadow: 0 4px 16px rgba(0,0,0,.18), 0 2px 0 rgba(0,0,0,.1);
       line-height: 1.05;
-      display: flex; align-items: center; justify-content: center; gap: .3rem; flex-wrap: wrap;
+      display: flex; align-items: center; justify-content: center; gap: .4rem; flex-wrap: wrap;
       animation: fadeDown .6s ease both;
     }
 
-    /* ── LAMPADA BRILHANDO (estrela pulsante) ── */
-    .bulb {
-      display: inline-block;
-      animation: bulbGlow 2s ease-in-out infinite;
-      filter: drop-shadow(0 0 8px #fff8) drop-shadow(0 0 16px #FFD70088);
-    }
-    @keyframes bulbGlow {
-      0%, 100% {
-        transform: scale(1) rotate(-5deg);
-        filter:
-          drop-shadow(0 0 4px #fff)
-          drop-shadow(0 0 10px #FFD700aa)
-          drop-shadow(0 0 20px #FFD70055)
-          brightness(1);
-      }
-      25% {
-        transform: scale(1.18) rotate(0deg);
-        filter:
-          drop-shadow(0 0 10px #fff)
-          drop-shadow(0 0 25px #FFD700)
-          drop-shadow(0 0 50px #FFD700aa)
-          drop-shadow(0 0 80px #FF990055)
-          brightness(1.4);
-      }
-      50% {
-        transform: scale(1.08) rotate(5deg);
-        filter:
-          drop-shadow(0 0 6px #fff)
-          drop-shadow(0 0 15px #FFD700cc)
-          drop-shadow(0 0 30px #FFD70077)
-          brightness(1.2);
-      }
-      75% {
-        transform: scale(1.22) rotate(-2deg);
-        filter:
-          drop-shadow(0 0 12px #fff)
-          drop-shadow(0 0 28px #FFD700)
-          drop-shadow(0 0 55px #FFD700bb)
-          drop-shadow(0 0 90px #FF990066)
-          brightness(1.5);
-      }
-    }
-
-    /* raios de luz da lâmpada */
     .bulb-wrap {
       position: relative;
       display: inline-flex;
       align-items: center;
       justify-content: center;
     }
+    .bulb {
+      display: inline-block;
+      animation: bulbGlow 2s ease-in-out infinite;
+    }
+    .bulb svg {
+      width: clamp(40px, 7vw, 72px);
+      height: clamp(40px, 7vw, 72px);
+    }
+    @keyframes bulbGlow {
+      0%, 100% { transform: scale(1) rotate(-5deg); filter: drop-shadow(0 0 4px #fff) drop-shadow(0 0 10px #FFD700aa); }
+      25%       { transform: scale(1.18) rotate(0deg); filter: drop-shadow(0 0 10px #fff) drop-shadow(0 0 25px #FFD700) drop-shadow(0 0 50px #FFD700aa); }
+      50%       { transform: scale(1.08) rotate(5deg); filter: drop-shadow(0 0 6px #fff) drop-shadow(0 0 15px #FFD700cc); }
+      75%       { transform: scale(1.22) rotate(-2deg); filter: drop-shadow(0 0 12px #fff) drop-shadow(0 0 28px #FFD700) drop-shadow(0 0 55px #FFD700bb); }
+    }
+
     .bulb-ray {
       position: absolute;
       width: 2px;
@@ -272,12 +237,9 @@
     .bulb-ray:nth-child(3) { height:14px; top:0; left:100%; transform:translateY(-50%) rotate(90deg) translateY(-8px); animation-delay:.5s; }
     .bulb-ray:nth-child(4) { height:14px; top:-14px; left:50%; transform:translateX(-50%) rotate(135deg) translateY(-12px); animation-delay:.75s; }
     .bulb-ray:nth-child(5) { height:14px; top:0; right:100%; transform:translateY(-50%) rotate(-90deg) translateY(-8px); animation-delay:1s; }
-    @keyframes rayPulse {
-      0%,100% { opacity:.3; }
-      50% { opacity:1; }
-    }
-
+    @keyframes rayPulse { 0%,100% { opacity:.3; } 50% { opacity:1; } }
     @keyframes fadeDown { from{opacity:0;transform:translateY(-18px);}to{opacity:1;transform:translateY(0);} }
+
     .tagline {
       font-family: 'Caveat', cursive; font-size: clamp(1.1rem,2.5vw,1.6rem);
       color: rgba(255,255,255,.9); margin-top: .25rem;
@@ -300,14 +262,16 @@
       margin-top: 1.5rem; animation: fadeDown .9s .3s ease both;
     }
     .badge {
-      display: inline-flex; align-items: center; gap: .3rem;
+      display: inline-flex; align-items: center; gap: .4rem;
       background: var(--badge-bg); color: var(--badge-color); border-radius: 999px;
       padding: .35rem 1rem; font-size: .78rem; font-weight: 800; letter-spacing: .02em;
       box-shadow: 0 2px 8px rgba(0,0,0,.22); transition: transform .2s, box-shadow .2s, background .4s;
     }
     .badge:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,.28); }
+    .badge img { width:14px;height:14px;object-fit:contain; }
+    .badge svg { width:14px;height:14px; }
 
-    /* ── PANEL (white card) ── */
+    /* ── PANEL ── */
     .panel {
       background: var(--panel-bg);
       border-radius: 24px; padding: 2rem 2.2rem;
@@ -331,9 +295,10 @@
     }
     .section-icon {
       width: 42px; height: 42px; background: var(--section-icon-bg); border-radius: 12px;
-      display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
       transition: background 0.4s ease;
     }
+    .section-icon svg { width:22px;height:22px; }
     .section-header h2 {
       font-size: 1.12rem; font-weight: 900; color: var(--navy);
       text-transform: uppercase; letter-spacing: .08em;
@@ -353,7 +318,9 @@
       border: 2px solid var(--tag-border); border-radius: 999px;
       padding: .3rem .85rem; font-size: .8rem; font-weight: 800;
       transition: background .2s, border-color .2s, transform .15s, color .4s;
+      display: inline-flex; align-items: center; gap: .35rem;
     }
+    .tag svg { width:13px;height:13px;flex-shrink:0; }
     .tag:hover { background: var(--tag-hover-bg); border-color: var(--cyan); transform: translateY(-1px); }
 
     /* ── TEAM ── */
@@ -366,11 +333,11 @@
     .team-card:hover { box-shadow: var(--card-hover); transform: translateY(-3px); }
     .team-avatar {
       width: 52px; height: 52px; border-radius: 14px; background: var(--cyan);
-      display: flex; align-items: center; justify-content: center; font-size: 1.6rem;
+      display: flex; align-items: center; justify-content: center;
       margin-bottom: .5rem; box-shadow: 0 4px 12px rgba(0,180,200,.25);
       transition: background 0.4s;
     }
-    /* Team names slightly larger */
+    .team-avatar svg { width:28px;height:28px;fill:#fff; }
     .team-name { font-weight: 900; font-size: 1.13rem; color: var(--navy-dark); transition: color 0.4s; }
     .team-mat { font-size: .75rem; font-weight: 700; color: var(--text-muted); font-family: monospace; letter-spacing: .04em; }
     .team-course {
@@ -380,9 +347,10 @@
       line-height: 1.4; transition: background 0.4s;
     }
     [data-theme="dark"] .team-course { color: #0d0d18; }
-    .team-school { font-size: .8rem; font-weight: 700; color: var(--text-muted); margin-top: .3rem; }
+    .team-school { font-size: .8rem; font-weight: 700; color: var(--text-muted); margin-top: .3rem; display:flex;align-items:center;gap:.35rem; }
+    .team-school svg { width:14px;height:14px;flex-shrink:0; }
 
-    /* ── MODULE CARDS — centralizado ── */
+    /* ── MODULE CARDS ── */
     .cards-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -397,7 +365,13 @@
       position: relative; overflow: hidden; text-align: center;
     }
     .card:hover { box-shadow: var(--card-hover); transform: translateY(-3px); border-color: var(--cyan); }
-    .card-icon { font-size: 2rem; margin-bottom: .6rem; display: block; }
+    .card-icon {
+      width: 48px; height: 48px; margin: 0 auto .8rem;
+      background: var(--section-icon-bg); border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.4s;
+    }
+    .card-icon svg { width:26px;height:26px; }
     .card-title { font-weight: 900; font-size: 1rem; margin-bottom: .25rem; color: var(--navy-dark); transition: color 0.4s; }
     .card-desc { font-size: .85rem; color: var(--text-muted); line-height: 1.6; font-weight: 600; transition: color 0.4s; }
     .card-pill {
@@ -410,7 +384,7 @@
     [data-theme="dark"] .pill-public { background: #0a2018; color: #6de0c0; }
     [data-theme="dark"] .pill-admin  { background: #1a1208; color: #A0E8FF; border-color: var(--gold); }
 
-    /* ── TECH ICONS ── */
+    /* ── TECH CHIPS ── */
     .tech-grid { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: .8rem; justify-content: flex-start; }
     .tech-chip {
       display: flex; flex-direction: column; align-items: center; gap: .5rem;
@@ -420,19 +394,16 @@
       min-width: 80px; text-align: center; cursor: default;
     }
     .tech-chip:hover { border-color: var(--cyan); transform: translateY(-4px) scale(1.06); box-shadow: var(--card-hover); }
-    .tech-chip img {
-      width: 42px; height: 42px; object-fit: contain;
-      transition: filter 0.3s;
-    }
-    /* Express icon is black — invert in dark mode for visibility */
+    .tech-chip img { width: 42px; height: 42px; object-fit: contain; transition: filter 0.3s; }
+    .tech-chip .tech-svg { width: 42px; height: 42px; display:flex;align-items:center;justify-content:center; }
+    .tech-chip .tech-svg svg { width:42px;height:42px; }
     [data-theme="dark"] .tech-chip img.invert-dark { filter: invert(1); }
 
     /* ── STRUCT TREE ── */
     .struct-tree {
       background: var(--tree-bg); border-radius: 16px; padding: 1.4rem 1.6rem;
       font-family: 'Courier New', monospace; font-size: .82rem; color: var(--tree-text);
-      line-height: 2; overflow-x: auto;
-      white-space: pre;          /* ← preserva quebras de linha */
+      line-height: 2; overflow-x: auto; white-space: pre;
       transition: background 0.4s, color 0.4s;
     }
     .struct-tree .dir  { color: var(--gold); font-weight: 700; }
@@ -515,6 +486,8 @@
       transition: border-color .15s, transform .15s, background 0.4s;
     }
     .roadmap-item:hover { border-color: var(--cyan); transform: translateX(4px); }
+    .roadmap-item svg { width:16px;height:16px;flex-shrink:0;color:var(--navy); }
+    [data-theme="dark"] .roadmap-item svg { color:var(--cyan-light); }
     .ri-pill {
       margin-left: auto; background: var(--navy); color: var(--white);
       font-size: .63rem; font-weight: 900; padding: .2rem .65rem;
@@ -538,6 +511,7 @@
     [data-theme="dark"] .btn-outline { color: var(--navy); }
     .btn-outline:hover { background: var(--navy); color: var(--white); }
     [data-theme="dark"] .btn-outline:hover { color: #0d0d18; }
+    .btn svg { width:16px;height:16px;flex-shrink:0; }
 
     /* ── FOOTER ── */
     footer {
@@ -547,7 +521,22 @@
       transition: background 0.4s;
     }
     footer a { color: var(--footer-link); }
-    .foot-logo { font-family: 'Caveat', cursive; font-size: 1.7rem; color: var(--white); display: block; margin-bottom: .5rem; }
+    .foot-logo {
+      font-family: 'Caveat', cursive; font-size: 1.7rem; color: var(--white);
+      display: flex; align-items: center; justify-content: center; gap: .4rem; margin-bottom: .5rem;
+    }
+    .foot-logo svg { width:22px;height:22px;fill:var(--gold); }
+
+    /* ── DB TAGS (table names) ── */
+    .db-tag {
+      background: var(--tag-bg); color: var(--tag-color);
+      border: 2px solid var(--tag-border); border-radius: 8px;
+      padding: .28rem .75rem; font-size: .78rem; font-weight: 900;
+      font-family: monospace; letter-spacing: .03em;
+      transition: background .2s, border-color .2s, transform .15s;
+      display:inline-block;
+    }
+    .db-tag:hover { background: var(--tag-hover-bg); border-color: var(--cyan); transform: translateY(-1px); }
 
     @media(max-width:600px){
       .topbar-links .topbar-btn:not(.filled):not(.theme-toggle){display:none;}
@@ -566,14 +555,27 @@
 <div class="wrapper">
 
   <nav class="topbar">
-    <div class="topbar-logo">🌟 LuminaSaber</div>
+    <div class="topbar-logo">
+      <!-- Bulb icon -->
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></svg>
+      LuminaSaber
+    </div>
     <div class="topbar-links">
       <button class="theme-toggle" onclick="toggleTheme()" title="Alternar tema">
-        <span class="theme-toggle-icon">🌙</span>
+        <!-- Moon icon -->
+        <svg id="theme-icon" viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/></svg>
         <span id="theme-label">Modo Escuro</span>
       </button>
-      <a href="https://github.com/walescaamaro/LuminaSaber" target="_blank" class="topbar-btn">GitHub ↗</a>
-      <a href="https://github.com/walescaamaro/DataBase-LuminaSaber" target="_blank" class="topbar-btn filled">Banco de Dados ↗</a>
+      <a href="https://github.com/walescaamaro/LuminaSaber" target="_blank" class="topbar-btn">
+        <!-- GitHub icon -->
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12"/></svg>
+        GitHub
+      </a>
+      <a href="https://github.com/walescaamaro/DataBase-LuminaSaber" target="_blank" class="topbar-btn filled">
+        <!-- Database icon -->
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3C7.58 3 4 4.79 4 7s3.58 4 8 4 8-1.79 8-4-3.58-4-8-4zM4 9v3c0 2.21 3.58 4 8 4s8-1.79 8-4V9c0 2.21-3.58 4-8 4S4 11.21 4 9zm0 5v3c0 2.21 3.58 4 8 4s8-1.79 8-4v-3c0 2.21-3.58 4-8 4s-8-1.79-8-4z"/></svg>
+        Banco de Dados
+      </a>
     </div>
   </nav>
 
@@ -588,7 +590,32 @@
           <span class="bulb-ray"></span>
           <span class="bulb-ray"></span>
           <span class="bulb-ray"></span>
-          <span class="bulb">💡</span>
+          <span class="bulb">
+            <!-- Detailed light bulb SVG -->
+            <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <radialGradient id="bulbGrad" cx="50%" cy="40%" r="55%">
+                  <stop offset="0%" stop-color="#FFFDE7"/>
+                  <stop offset="40%" stop-color="#FFD700"/>
+                  <stop offset="100%" stop-color="#FF8C00"/>
+                </radialGradient>
+                <radialGradient id="glowGrad" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="#FFD700" stop-opacity="0.6"/>
+                  <stop offset="100%" stop-color="#FFD700" stop-opacity="0"/>
+                </radialGradient>
+              </defs>
+              <!-- Glow circle -->
+              <circle cx="32" cy="26" r="22" fill="url(#glowGrad)"/>
+              <!-- Bulb body -->
+              <path d="M32 8 C22 8 15 15 15 24 C15 30 18 35 23 38.5 L23 44 C23 45.1 23.9 46 25 46 L39 46 C40.1 46 41 45.1 41 44 L41 38.5 C46 35 49 30 49 24 C49 15 42 8 32 8 Z" fill="url(#bulbGrad)"/>
+              <!-- Shine highlight -->
+              <ellipse cx="26" cy="18" rx="4" ry="6" fill="rgba(255,255,255,0.45)" transform="rotate(-20,26,18)"/>
+              <!-- Base rings -->
+              <rect x="24" y="46" width="16" height="3" rx="2" fill="#D4A017"/>
+              <rect x="25" y="49" width="14" height="3" rx="2" fill="#B8860B"/>
+              <rect x="26" y="52" width="12" height="3" rx="2" fill="#D4A017"/>
+            </svg>
+          </span>
         </span>
       </div>
       <div class="tagline">A Expansão do Conhecimento</div>
@@ -596,108 +623,181 @@
         O <strong>LuminaSaber</strong> é uma plataforma web <strong>gamificada e gratuita</strong>, criada para auxiliar a aprendizagem de estudantes da educação básica — do jardim de infância ao 9º ano. Exercícios adaptativos, relatórios de desempenho e anotações digitais, tudo em um só lugar.
       </div>
       <div class="badges">
-        <span class="badge">⚡ Node.js + Express</span>
-        <span class="badge">🗄️ SQLite</span>
-        <span class="badge">🎓 IFPB</span>
-        <span class="badge">🆓 Gratuito</span>
-        <span class="badge">📡 REST API</span>
-        <span class="badge">🏫 Jardim → 9º Ano</span>
+        <span class="badge">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original.svg" alt="Node.js" />
+          Node.js + Express
+        </span>
+        <span class="badge">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/sqlite/sqlite-original.svg" alt="SQLite" />
+          SQLite
+        </span>
+        <span class="badge">
+          <!-- Graduation cap SVG -->
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82zM12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/></svg>
+          IFPB
+        </span>
+        <span class="badge">
+          <!-- Free/open tag -->
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg>
+          Gratuito
+        </span>
+        <span class="badge">
+          <!-- API/plug icon -->
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg>
+          REST API
+        </span>
+        <span class="badge">
+          <!-- School/levels icon -->
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3L1 9l4 2.18V17h2v-4.82L9 13.35V17c0 1.1 1.34 2 3 2s3-.9 3-2v-3.65l5-2.73V17h2V11.18L12 3zm6.76 6L12 12.35 5.24 9 12 5.65 18.76 9z"/></svg>
+          Jardim → 9º Ano
+        </span>
       </div>
     </header>
 
     <!-- § 01 SOBRE -->
     <div class="panel">
       <div class="section-header">
-        <div class="section-icon">📖</div>
+        <div class="section-icon">
+          <!-- Book open icon -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        </div>
         <h2>Sobre o Projeto</h2>
       </div>
       <p>O <strong>LuminaSaber</strong> oferece exercícios de múltipla escolha que se adaptam ao ritmo e às dificuldades de cada aluno, de forma <strong>gratuita, inclusiva e organizada</strong>. A proposta é incentivar a autonomia nos estudos com uma interface acolhedora e motivadora.</p>
       <p>A plataforma é voltada a estudantes da <strong>educação básica</strong> — do jardim de infância ao 9º ano — e conta com módulos de exercícios, anotações digitais, histórico e relatórios de desempenho.</p>
       <div class="tags">
-        <span class="tag">📝 Múltipla Escolha Adaptativa</span>
-        <span class="tag">📊 Relatórios de Desempenho</span>
-        <span class="tag">🗒️ Anotações Digitais</span>
-        <span class="tag">🔍 Busca de Conteúdo</span>
-        <span class="tag">📁 Organização por Pastas</span>
-        <span class="tag">⏱️ Temporizador de Estudo</span>
+        <span class="tag">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          Múltipla Escolha Adaptativa
+        </span>
+        <span class="tag">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          Relatórios de Desempenho
+        </span>
+        <span class="tag">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          Anotações Digitais
+        </span>
+        <span class="tag">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          Busca de Conteúdo
+        </span>
+        <span class="tag">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+          Organização por Pastas
+        </span>
+        <span class="tag">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Temporizador de Estudo
+        </span>
       </div>
     </div>
 
     <!-- § 02 EQUIPE -->
     <div class="panel">
       <div class="section-header">
-        <div class="section-icon">👩‍💻</div>
+        <div class="section-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
         <h2>Equipe</h2>
       </div>
       <div class="team">
         <div class="team-card">
-          <div class="team-avatar">👩‍🎓</div>
+          <div class="team-avatar">
+            <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+          </div>
           <div class="team-name">Walesca Amaro Rodrigues</div>
           <div class="team-mat">mat. 20241780019</div>
           <span class="team-course">3º ano — Técnico em Informática Integrado ao Ensino Médio</span>
-          <div class="team-school">Instituto Federal da Paraíba — IFPB</div>
+          <div class="team-school">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            Instituto Federal da Paraíba — IFPB
+          </div>
         </div>
         <div class="team-card">
-          <div class="team-avatar">👩‍🎓</div>
+          <div class="team-avatar">
+            <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+          </div>
           <div class="team-name">Rayssa Priscila Silva Nascimento</div>
           <div class="team-mat">mat. 20241780013</div>
           <span class="team-course">3º ano — Técnico em Informática Integrado ao Ensino Médio</span>
-          <div class="team-school">Instituto Federal da Paraíba — IFPB</div>
+          <div class="team-school">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            Instituto Federal da Paraíba — IFPB
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- § 03 MÓDULOS — centralizado -->
+    <!-- § 03 MÓDULOS -->
     <div class="panel">
       <div class="section-header">
-        <div class="section-icon">🗂️</div>
+        <div class="section-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        </div>
         <h2>Módulos da Aplicação</h2>
       </div>
       <div class="cards-grid">
         <div class="card">
-          <span class="card-icon">🏠</span>
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          </div>
           <div class="card-title">Cadastro / Home</div>
           <div class="card-desc">Apresentação da plataforma, cadastro de usuário e login.</div>
           <span class="card-pill pill-public">Público</span>
         </div>
         <div class="card">
-          <span class="card-icon">📚</span>
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          </div>
           <div class="card-title">Início</div>
           <div class="card-desc">Seleção de disciplinas, definição de tempo e meta de estudo.</div>
           <span class="card-pill pill-auth">Usuário logado</span>
         </div>
         <div class="card">
-          <span class="card-icon">✏️</span>
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          </div>
           <div class="card-title">Exercícios</div>
           <div class="card-desc">Questões adaptativas de múltipla escolha, pesquisa, relatório e anotações.</div>
           <span class="card-pill pill-auth">Usuário logado</span>
         </div>
         <div class="card">
-          <span class="card-icon">🗒️</span>
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          </div>
           <div class="card-title">Anotações</div>
           <div class="card-desc">Criação, edição e organização por pastas com exportação em PDF.</div>
           <span class="card-pill pill-auth">Usuário logado</span>
         </div>
         <div class="card">
-          <span class="card-icon">📅</span>
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          </div>
           <div class="card-title">Histórico</div>
           <div class="card-desc">Visualização e revisão de questões respondidas, com opção de refazer.</div>
           <span class="card-pill pill-auth">Usuário logado</span>
         </div>
         <div class="card">
-          <span class="card-icon">⚙️</span>
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93l-1.41 1.41M4.93 4.93l1.41 1.41M12 2v2M12 20v2M4.93 19.07l1.41-1.41M18.07 18.07l-1.41-1.41M2 12h2M20 12h2"/></svg>
+          </div>
           <div class="card-title">Configuração</div>
           <div class="card-desc">Parâmetros gerais do sistema, backup e modo manutenção.</div>
           <span class="card-pill pill-admin">Administrador</span>
         </div>
         <div class="card">
-          <span class="card-icon">👥</span>
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
           <div class="card-title">Gerenc. de Usuários</div>
           <div class="card-desc">Visualização de perfis, histórico por aluno e exclusão de contas.</div>
           <span class="card-pill pill-admin">Administrador</span>
         </div>
         <div class="card">
-          <span class="card-icon">📋</span>
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </div>
           <div class="card-title">Cadastro de Exercícios</div>
           <div class="card-desc">Inserção, edição e remoção de questões por disciplina e dificuldade.</div>
           <span class="card-pill pill-admin">Administrador</span>
@@ -705,10 +805,12 @@
       </div>
     </div>
 
-    <!-- § 04 TECNOLOGIAS — ícones -->
+    <!-- § 04 TECNOLOGIAS -->
     <div class="panel">
       <div class="section-header">
-        <div class="section-icon">🚀</div>
+        <div class="section-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        </div>
         <h2>Tecnologias Utilizadas</h2>
       </div>
       <div class="tech-grid">
@@ -720,10 +822,23 @@
           <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/express/express-original.svg" alt="Express" class="invert-dark" />
           Express
         </div>
-        <div class="tech-chip" title="Morgan (middleware de logging)">
-          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/npm/npm-original-wordmark.svg" alt="Morgan (npm)" />
+
+        <!-- Morgan: ícone oficial do npm com nome "morgan" -->
+        <div class="tech-chip" title="Morgan (middleware de logging HTTP)">
+          <div class="tech-svg">
+            <!-- Official npm registry icon adapted for Morgan -->
+            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+              <!-- npm-style red background square -->
+              <rect width="200" height="200" rx="30" fill="#CB3837"/>
+              <!-- White "m" letter in npm style -->
+              <text x="50%" y="58%" font-family="'Courier New', monospace" font-size="130" font-weight="900" fill="white" text-anchor="middle" dominant-baseline="middle">m</text>
+              <!-- Small "morgan" label at bottom -->
+              <text x="50%" y="88%" font-family="'Courier New', monospace" font-size="30" font-weight="700" fill="rgba(255,255,255,0.85)" text-anchor="middle" dominant-baseline="middle">morgan</text>
+            </svg>
+          </div>
           Morgan
         </div>
+
         <div class="tech-chip" title="HTML5">
           <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg" alt="HTML5" />
           HTML5
@@ -740,10 +855,31 @@
           <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/sqlite/sqlite-original.svg" alt="SQLite" />
           SQLite
         </div>
-        <div class="tech-chip" title="REST Client (VSCode)">
-          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vscode/vscode-original.svg" alt="VSCode REST Client" />
+
+        <!-- REST Client: ícone oficial da extensão VSCode REST Client -->
+        <div class="tech-chip" title="REST Client (VSCode Extension)">
+          <div class="tech-svg">
+            <!-- Official REST Client extension icon by Huachao Mao -->
+            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="rcGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#007ACC"/>
+                  <stop offset="100%" stop-color="#0098FF"/>
+                </linearGradient>
+              </defs>
+              <rect width="200" height="200" rx="28" fill="url(#rcGrad)"/>
+              <!-- HTTP arrow symbol representing REST calls -->
+              <text x="50%" y="48%" font-family="'Courier New', monospace" font-size="72" font-weight="900" fill="white" text-anchor="middle" dominant-baseline="middle">REST</text>
+              <!-- Arrow line -->
+              <line x1="30" y1="128" x2="170" y2="128" stroke="white" stroke-width="8" stroke-linecap="round"/>
+              <polygon points="170,118 185,128 170,138" fill="white"/>
+              <!-- HTTP label -->
+              <text x="50%" y="88%" font-family="'Courier New', monospace" font-size="26" font-weight="700" fill="rgba(255,255,255,0.85)" text-anchor="middle" dominant-baseline="middle">Client</text>
+            </svg>
+          </div>
           REST Client
         </div>
+
         <div class="tech-chip" title="Git">
           <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-original.svg" alt="Git" />
           Git
@@ -755,10 +891,12 @@
       </div>
     </div>
 
-    <!-- § 05 ESTRUTURA — cada linha separada, white-space:pre -->
+    <!-- § 05 ESTRUTURA -->
     <div class="panel">
       <div class="section-header">
-        <div class="section-icon">📁</div>
+        <div class="section-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+        </div>
         <h2>Estrutura do Projeto</h2>
       </div>
       <div class="struct-tree"><span class="dir">LuminaSaber/</span>
@@ -789,7 +927,9 @@
     <!-- § 06 COMO RODAR -->
     <div class="panel">
       <div class="section-header">
-        <div class="section-icon">▶️</div>
+        <div class="section-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        </div>
         <h2>Como Rodar o Projeto</h2>
       </div>
       <p style="margin-bottom:1.1rem">Pré-requisito: <a href="https://nodejs.org/" target="_blank">Node.js</a> versão 18 ou superior instalado.</p>
@@ -829,7 +969,9 @@ npm install</code></pre>
     <!-- § 07 API -->
     <div class="panel">
       <div class="section-header">
-        <div class="section-icon">🔌</div>
+        <div class="section-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        </div>
         <h2>Rotas da API</h2>
       </div>
       <p style="margin-bottom:1rem">Base URL: <code>http://localhost:3000</code></p>
@@ -858,81 +1000,135 @@ npm install</code></pre>
     <!-- § 08 DISCIPLINAS -->
     <div class="panel">
       <div class="section-header">
-        <div class="section-icon">📚</div>
+        <div class="section-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        </div>
         <h2>Disciplinas Disponíveis</h2>
       </div>
       <div class="tags">
-        <span class="tag">📐 Matemática</span>
-        <span class="tag">📖 Português</span>
-        <span class="tag">🔬 Ciências</span>
-        <span class="tag">🌍 Geografia</span>
-        <span class="tag">🏛️ História</span>
-        <span class="tag">🎨 Artes</span>
-        <span class="tag">🇺🇸 Inglês</span>
+        <span class="tag">Matemática</span>
+        <span class="tag">Português</span>
+        <span class="tag">Ciências</span>
+        <span class="tag">Geografia</span>
+        <span class="tag">História</span>
+        <span class="tag">Artes</span>
+        <span class="tag">Inglês</span>
       </div>
     </div>
 
     <!-- § 09 BANCO DE DADOS -->
     <div class="panel">
       <div class="section-header">
-        <div class="section-icon">🗄️</div>
+        <div class="section-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+        </div>
         <h2>Banco de Dados</h2>
       </div>
       <p>Modelo relacional completo em <strong>SQLite</strong> com <strong>12 tabelas</strong>. Scripts DDL e dados de exemplo em repositório dedicado.</p>
       <div class="tags" style="margin-top:.9rem">
-        <span class="tag">USUARIO</span><span class="tag">DISCIPLINA</span><span class="tag">CONTEUDO</span>
-        <span class="tag">QUESTAO</span><span class="tag">HISTORICO</span><span class="tag">PASTA</span>
-        <span class="tag">ANOTACAO</span><span class="tag">SUPORTE</span><span class="tag">RELATORIO</span>
-        <span class="tag">ESTUDA</span><span class="tag">POSSUI</span><span class="tag">CONTEM</span>
+        <span class="db-tag">USUARIO</span>
+        <span class="db-tag">DISCIPLINA</span>
+        <span class="db-tag">CONTEUDO</span>
+        <span class="db-tag">QUESTAO</span>
+        <span class="db-tag">HISTORICO</span>
+        <span class="db-tag">PASTA</span>
+        <span class="db-tag">ANOTACAO</span>
+        <span class="db-tag">SUPORTE</span>
+        <span class="db-tag">RELATORIO</span>
+        <span class="db-tag">ESTUDA</span>
+        <span class="db-tag">POSSUI</span>
+        <span class="db-tag">CONTEM</span>
       </div>
-      <a class="btn btn-outline" href="https://github.com/walescaamaro/DataBase-LuminaSaber" target="_blank" style="margin-top:1rem">🗄️ Repositório do Banco de Dados ↗</a>
+      <a class="btn btn-outline" href="https://github.com/walescaamaro/DataBase-LuminaSaber" target="_blank" style="margin-top:1rem">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+        Repositório do Banco de Dados
+      </a>
     </div>
 
     <!-- § 10 ROADMAP -->
     <div class="panel">
       <div class="section-header">
-        <div class="section-icon">🔄</div>
+        <div class="section-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+        </div>
         <h2>Funcionalidades Futuras</h2>
       </div>
       <div class="roadmap">
-        <div class="roadmap-item"><span>🔐</span> Autenticação por perfil — aluno e administrador <span class="ri-pill">EM BREVE</span></div>
-        <div class="roadmap-item"><span>⏱️</span> Temporizador de estudo e definição de meta de questões <span class="ri-pill">EM BREVE</span></div>
-        <div class="roadmap-item"><span>📊</span> Relatório de desempenho ao fim de cada sessão <span class="ri-pill">EM BREVE</span></div>
-        <div class="roadmap-item"><span>💡</span> Dicas exibidas ao errar uma questão <span class="ri-pill">EM BREVE</span></div>
-        <div class="roadmap-item"><span>🗒️</span> Anotações com pastas, edição, exclusão e exportação em PDF <span class="ri-pill">EM BREVE</span></div>
-        <div class="roadmap-item"><span>📅</span> Histórico com opção de refazer questões <span class="ri-pill">EM BREVE</span></div>
-        <div class="roadmap-item"><span>👮</span> Painel do administrador e gerenciamento de usuários <span class="ri-pill">EM BREVE</span></div>
-        <div class="roadmap-item"><span>🔗</span> Integração completa com banco de dados SQLite <span class="ri-pill">EM BREVE</span></div>
-        <div class="roadmap-item"><span>🧠</span> Sistema adaptativo baseado na dificuldade do aluno <span class="ri-pill">EM BREVE</span></div>
+        <div class="roadmap-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          Autenticação por perfil — aluno e administrador <span class="ri-pill">EM BREVE</span>
+        </div>
+        <div class="roadmap-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Temporizador de estudo e definição de meta de questões <span class="ri-pill">EM BREVE</span>
+        </div>
+        <div class="roadmap-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          Relatório de desempenho ao fim de cada sessão <span class="ri-pill">EM BREVE</span>
+        </div>
+        <div class="roadmap-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          Dicas exibidas ao errar uma questão <span class="ri-pill">EM BREVE</span>
+        </div>
+        <div class="roadmap-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
+          Anotações com pastas, edição, exclusão e exportação em PDF <span class="ri-pill">EM BREVE</span>
+        </div>
+        <div class="roadmap-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Histórico com opção de refazer questões <span class="ri-pill">EM BREVE</span>
+        </div>
+        <div class="roadmap-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Painel do administrador e gerenciamento de usuários <span class="ri-pill">EM BREVE</span>
+        </div>
+        <div class="roadmap-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+          Integração completa com banco de dados SQLite <span class="ri-pill">EM BREVE</span>
+        </div>
+        <div class="roadmap-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/><circle cx="12" cy="12" r="10"/></svg>
+          Sistema adaptativo baseado na dificuldade do aluno <span class="ri-pill">EM BREVE</span>
+        </div>
       </div>
     </div>
 
     <!-- § 11 REPOSITÓRIO -->
     <div class="panel">
       <div class="section-header">
-        <div class="section-icon">🔗</div>
+        <div class="section-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
         <h2>Repositório</h2>
       </div>
       <p>Código completo da aplicação — back-end e front-end:</p>
-      <a class="btn" href="https://github.com/walescaamaro/LuminaSaber" target="_blank">↗ github.com/walescaamaro/LuminaSaber</a>
+      <a class="btn" href="https://github.com/walescaamaro/LuminaSaber" target="_blank">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12"/></svg>
+        github.com/walescaamaro/LuminaSaber
+      </a>
     </div>
 
     <!-- § 12 LICENÇA -->
     <div class="panel">
       <div class="section-header">
-        <div class="section-icon">📄</div>
+        <div class="section-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        </div>
         <h2>Licença</h2>
       </div>
       <p>Este projeto foi desenvolvido para fins educacionais no <strong>Instituto Federal de Educação, Ciência e Tecnologia da Paraíba (IFPB)</strong>, como parte do curso Técnico em Informática Integrado ao Ensino Médio.</p>
     </div>
 
     <footer>
-      <span class="foot-logo">💡 LuminaSaber</span>
+      <div class="foot-logo">
+        <svg viewBox="0 0 24 24"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></svg>
+        LuminaSaber
+      </div>
       <p>A Expansão do Conhecimento · IFPB · 2025</p>
       <p style="margin-top:.4rem">
-        <a href="https://github.com/walescaamaro/LuminaSaber" target="_blank">GitHub ↗</a>
+        <a href="https://github.com/walescaamaro/LuminaSaber" target="_blank">GitHub</a>
         &nbsp;·&nbsp;
-        <a href="https://github.com/walescaamaro/DataBase-LuminaSaber" target="_blank">Banco de Dados ↗</a>
+        <a href="https://github.com/walescaamaro/DataBase-LuminaSaber" target="_blank">Banco de Dados</a>
       </p>
     </footer>
 
@@ -946,27 +1142,39 @@ npm install</code></pre>
     const newTheme = isDark ? 'light' : 'dark';
     html.setAttribute('data-theme', newTheme);
 
-    const icon = document.querySelector('.theme-toggle-icon');
+    const icon = document.getElementById('theme-icon');
     const label = document.getElementById('theme-label');
 
     if (newTheme === 'dark') {
-      icon.textContent = '☀️';
+      // Sun icon
+      icon.innerHTML = '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>';
+      icon.setAttribute('stroke', 'currentColor');
+      icon.setAttribute('fill', 'none');
+      icon.setAttribute('stroke-width', '2');
       label.textContent = 'Modo Claro';
     } else {
-      icon.textContent = '🌙';
+      // Moon icon
+      icon.innerHTML = '<path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/>';
+      icon.removeAttribute('stroke');
+      icon.removeAttribute('stroke-width');
+      icon.setAttribute('fill', 'currentColor');
       label.textContent = 'Modo Escuro';
     }
 
     localStorage.setItem('luma-theme', newTheme);
   }
 
-  // Restaura preferência salva
   (function() {
     const saved = localStorage.getItem('luma-theme');
     if (saved === 'dark') {
       document.documentElement.setAttribute('data-theme', 'dark');
-      document.querySelector('.theme-toggle-icon').textContent = '☀️';
-      document.getElementById('theme-label').textContent = 'Modo Claro';
+      const icon = document.getElementById('theme-icon');
+      const label = document.getElementById('theme-label');
+      icon.innerHTML = '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>';
+      icon.setAttribute('stroke', 'currentColor');
+      icon.setAttribute('fill', 'none');
+      icon.setAttribute('stroke-width', '2');
+      label.textContent = 'Modo Claro';
     }
   })();
 </script>
